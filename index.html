@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Anatomía 1º Enfermería - 200 preguntas</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --primary-2: #1d4ed8;
+      --ok: #15803d;
+      --bad: #b91c1c;
+      --border: #dbe3f0;
+      --shadow: 0 10px 30px rgba(30, 41, 59, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 240px);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 16px 80px;
+    }
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+      line-height: 1.1;
+    }
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin: 18px 0 16px;
+    }
+    .left-tools, .right-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    button {
+      border: 0;
+      background: var(--primary);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: .15s ease;
+    }
+    button:hover { background: var(--primary-2); transform: translateY(-1px); }
+    button.secondary {
+      background: #e5eefc;
+      color: #1e3a8a;
+    }
+    button.secondary:hover { background: #dbe7ff; }
+    button.ghost {
+      background: #edf2f7;
+      color: #334155;
+    }
+    button.ghost:hover { background: #e2e8f0; }
+    .pill {
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 600;
+    }
+    .quiz-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 12px;
+    }
+    .question {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin: 12px 0;
+      background: #fff;
+    }
+    .question h3 {
+      margin: 0 0 12px;
+      font-size: 1.03rem;
+      line-height: 1.45;
+    }
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+    .option {
+      display: block;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: .15s ease;
+      background: #fbfdff;
+    }
+    .option:hover { border-color: #b8c9e6; background: #f7fbff; }
+    .option input { margin-right: 10px; }
+    .option.correct {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+    .option.incorrect {
+      border-color: #fecaca;
+      background: #fef2f2;
+    }
+    .feedback {
+      margin-top: 12px;
+      font-size: .95rem;
+      font-weight: 700;
+    }
+    .feedback.ok { color: var(--ok); }
+    .feedback.bad { color: var(--bad); }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    .result {
+      display: none;
+      margin-top: 20px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .score {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .muted { color: var(--muted); }
+    .small { font-size: .92rem; }
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.45;
+    }
+    @media (max-width: 720px) {
+      h1 { font-size: 1.55rem; }
+      .hero, .quiz-card, .result { border-radius: 16px; }
+      button { width: 100%; }
+      .left-tools, .right-tools { width: 100%; }
+      .pill { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Test Anatomía · 1º Enfermería</h1>
+      <p class="sub">
+        Banco de <strong>200 preguntas tipo test</strong> con nivel alto, basado en el temario del PDF que me pasaste
+        (embriología, histología, sistema tegumentario, sistema musculoesquelético, respiratorio y caja torácica). fileciteturn0file0
+      </p>
+      <div class="toolbar">
+        <div class="left-tools">
+          <span class="pill" id="progressPill">Página 1 de 10 · Preguntas 1-20</span>
+          <span class="pill" id="answeredPill">Respondidas: 0 / 200</span>
+        </div>
+        <div class="right-tools">
+          <button class="secondary" id="btnCorrect">Corregir test</button>
+          <button class="ghost" id="btnShowAnswers">Mostrar soluciones</button>
+          <button class="ghost" id="btnReset">Reiniciar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="quiz-card">
+      <div id="quiz"></div>
+      <div class="pagination">
+        <button class="secondary" id="btnPrev">← Anterior</button>
+        <span class="pill" id="pageIndicator">1 / 10</span>
+        <button class="secondary" id="btnNext">Siguiente →</button>
+      </div>
+    </section>
+
+    <section class="result" id="resultBox">
+      <div class="score" id="scoreText"></div>
+      <div class="muted" id="summaryText"></div>
+      <div class="footer-note">
+        Consejo: puedes hacer primero el test completo y luego pulsar <strong>“Corregir test”</strong>,
+        o ir marcando respuestas y navegar entre páginas. Las respuestas quedan guardadas mientras no reinicies.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const QUESTIONS = [{"q": "¿Qué hecho define el inicio del desarrollo humano según el temario?", "options": ["La implantación", "La gastrulación", "La concepción", "La organogénesis"], "answer": 2}, {"q": "Durante la fecundación participan:", "options": ["Un ovocito 46n y un espermatozoide 23n", "Un ovocito 23n y un espermatozoide 23n", "Dos gametos diploides", "Un cigoto y un ovocito"], "answer": 1}, {"q": "Uno de los resultados directos de la fecundación es:", "options": ["La formación del mesodermo", "La recuperación del número diploide de cromosomas", "La aparición del saco amniótico", "La formación del tubo neural"], "answer": 1}, {"q": "La segmentación consiste en:", "options": ["Divisiones meióticas del cigoto", "Divisiones mitóticas que aumentan el número de blastómeras", "Formación de las hojas germinales", "Aparición del pedículo de fijación"], "answer": 1}, {"q": "La mórula se caracteriza por estar formada aproximadamente por:", "options": ["8 células", "16 células", "32 células", "64 células"], "answer": 1}, {"q": "El embrioblasto del blastocisto dará lugar principalmente a:", "options": ["La placenta", "El endometrio", "El futuro embrión", "El saco vitelino secundario"], "answer": 2}, {"q": "El trofoblasto dará lugar principalmente a:", "options": ["El futuro embrión", "La futura placenta", "El tubo neural", "La notocorda"], "answer": 1}, {"q": "La segunda semana del desarrollo se caracteriza por el paso a:", "options": ["Disco embrionario trilaminar", "Disco embrionario bilaminar", "Mórula compacta", "Neurula"], "answer": 1}, {"q": "Las dos capas del disco embrionario bilaminar son:", "options": ["Ectodermo y endodermo", "Epiblasto e hipoblasto", "Somatopleura y esplacnopleura", "Citotrofoblasto y sincitiotrofoblasto"], "answer": 1}, {"q": "La implantación fisiológica ocurre habitualmente en:", "options": ["La trompa uterina", "La pared anterior o posterior del útero", "El cuello uterino", "El ovario"], "answer": 1}, {"q": "En el día 8, el trofoblasto se diferencia en:", "options": ["Epiblasto e hipoblasto", "Citotrofoblasto y sincitiotrofoblasto", "Somático y esplácnico", "Mesodermo y ectodermo"], "answer": 1}, {"q": "La cavidad amniótica comienza a aparecer en relación con:", "options": ["Hipoblasto", "Citotrofoblasto", "Epiblasto", "Saco vitelino definitivo"], "answer": 2}, {"q": "La etapa lacunar se describe típicamente en el:", "options": ["Día 6", "Día 9", "Día 13", "Día 16"], "answer": 1}, {"q": "El saco vitelino primitivo también recibe el nombre de:", "options": ["Cavidad coriónica", "Cavidad exocelómica", "Cavidad amniótica", "Cavidad celómica intraembrionaria"], "answer": 1}, {"q": "El inicio de la circulación uteroplacentaria se asocia a:", "options": ["El cierre del neuróporo caudal", "El llenado de lagunas con sangre materna", "La formación de somitas", "La fusión de las membranas del ovocito y el espermatozoide"], "answer": 1}, {"q": "El mesodermo extraembrionario se divide en hojas:", "options": ["Ectodérmica y endodérmica", "Somática y esplácnica", "Parietal y visceral solamente intraembrionarias", "Basal y reticular"], "answer": 1}, {"q": "La cavidad extraembrionaria también se denomina:", "options": ["Cavidad exocelómica", "Cavidad coriónica", "Cavidad amniótica", "Luz uterina"], "answer": 1}, {"q": "Las vellosidades primarias aparecen de forma característica en el:", "options": ["Día 8", "Día 11", "Día 13", "Día 20"], "answer": 2}, {"q": "El pedículo de fijación dará lugar a:", "options": ["El saco vitelino", "La placenta", "El cordón umbilical", "La línea primitiva"], "answer": 2}, {"q": "Un problema de implantación descrito en el temario es:", "options": ["Placenta previa obligatoria", "Embarazo extrauterino", "Atresia esofágica", "Anencefalia"], "answer": 1}, {"q": "La gastrulación supone:", "options": ["El paso de 3 a 2 capas germinales", "El paso de 2 a 3 capas germinales", "La formación del blastocisto", "El cierre del neuróporo craneal"], "answer": 1}, {"q": "La línea primitiva aparece al inicio de la:", "options": ["Implantación", "Segmentación", "Gastrulación", "Organogénesis"], "answer": 2}, {"q": "Las células que quedan en contacto con el hipoblasto forman:", "options": ["Ectodermo", "Mesodermo", "Endodermo", "Amnios"], "answer": 2}, {"q": "Las células que quedan en contacto con el epiblasto forman:", "options": ["Endodermo", "Ectodermo", "Mesodermo lateral", "Notocorda"], "answer": 1}, {"q": "La notocorda se forma a partir de células del:", "options": ["Citotrofoblasto", "Endodermo y mesodermo", "Sincitiotrofoblasto", "Hipoblasto exclusivamente"], "answer": 1}, {"q": "La notocorda es importante porque:", "options": ["Forma definitivamente la placenta", "Constituye el eje del embrión", "Origina el corazón", "Da lugar al saco amniótico"], "answer": 1}, {"q": "El periodo embrionario u organogénesis comprende aproximadamente:", "options": ["Semanas 1 a 3", "Semanas 3 a 8", "Semanas 9 a 12", "Meses 4 a 9"], "answer": 1}, {"q": "Durante la organogénesis se induce:", "options": ["La mayoría de los defectos congénitos", "El cierre de todas las suturas craneales", "La producción definitiva de surfactante", "La menopausia fetal"], "answer": 0}, {"q": "El neuroectodermo deriva de:", "options": ["La placa neural", "El saco vitelino", "La cresta mesonéfrica", "La placa coriónica"], "answer": 0}, {"q": "El cierre del neuróporo craneal ocurre aproximadamente el día:", "options": ["20", "23", "25", "28"], "answer": 2}, {"q": "El cierre del neuróporo caudal ocurre aproximadamente:", "options": ["Dos días después del craneal", "Antes del craneal", "Al final del segundo mes", "En el tercer mes"], "answer": 0}, {"q": "La cresta neural origina, entre otras estructuras:", "options": ["Hepatocitos y neumocitos", "Ganglios espinales y huesos craneofaciales", "Miocardio ventricular exclusivamente", "Médula ósea roja"], "answer": 1}, {"q": "El mesodermo paraxial se organiza en:", "options": ["Nefronas", "Somitas", "Lóbulos pulmonares", "Vellosidades coriales"], "answer": 1}, {"q": "Según el temario, desde el día 20 se forman aproximadamente:", "options": ["1 par de somitas al día", "2 pares de somitas al día", "3 pares de somitas al día", "5 pares de somitas al día"], "answer": 2}, {"q": "El endodermo origina principalmente:", "options": ["Sistema nervioso central", "Revestimiento intestinal y aparato respiratorio", "Epidermis", "Hueso compacto"], "answer": 1}, {"q": "Los miembros superiores aparecen a partir de:", "options": ["Somitas lumbares y sacros", "Cuarto somita cervical", "Somitas torácicos medios", "Notocorda"], "answer": 1}, {"q": "En la octava semana es característico:", "options": ["Ausencia de osificación femoral", "Dedos diferenciados y aspecto humano", "Cierre del foramen oval", "Presencia de lanugo"], "answer": 1}, {"q": "El periodo fetal se caracteriza sobre todo por:", "options": ["Formación de las tres capas germinales", "Maduración de tejidos y órganos y rápido crecimiento corporal", "Aparición de la línea primitiva", "Implantación"], "answer": 1}, {"q": "Alrededor de la semana 12 se desarrollan:", "options": ["Genitales externos", "Alveolos definitivos", "Senos paranasales", "Discos articulares"], "answer": 0}, {"q": "Al final del embarazo a término, el peso fetal descrito en el temario es aproximadamente:", "options": ["1.100 g", "2.000 g", "3.000-3.400 g", "4.500-5.000 g"], "answer": 2}, {"q": "La histología se define como la ciencia que estudia:", "options": ["Las hormonas", "Los tejidos", "Los genes", "Los reflejos"], "answer": 1}, {"q": "Las uniones estrechas se caracterizan por:", "options": ["Formar túneles para iones", "Sellar las vías de paso entre células", "Unir célula con membrana basal mediante integrinas", "Anclarse a fibras reticulares"], "answer": 1}, {"q": "Las uniones adherentes se relacionan con:", "options": ["Cadherinas y microfilamentos", "Conexinas y conexones", "Integrinas y lámina basal", "Colágeno tipo II"], "answer": 0}, {"q": "Los desmosomas se unen a:", "options": ["Microtúbulos", "Filamentos intermedios de queratina", "Membrana basal únicamente", "Actina del músculo liso"], "answer": 1}, {"q": "Los hemidesmosomas unen:", "options": ["Dos células epiteliales contiguas", "Una célula a la membrana basal", "Dos fibroblastos", "Dos neuronas"], "answer": 1}, {"q": "Las conexiones comunicantes o gap junction están formadas por proteínas llamadas:", "options": ["Cadherinas", "Claudinas", "Conexinas", "Integrinas"], "answer": 2}, {"q": "Los cuatro tipos básicos de tejidos son:", "options": ["Epitelial, adiposo, vascular y óseo", "Epitelial, conectivo, muscular y nervioso", "Epitelial, glandular, óseo y linfático", "Muscular, sanguíneo, endocrino y nervioso"], "answer": 1}, {"q": "El tejido epitelial se caracteriza por ser:", "options": ["Muy vascularizado", "Avascular y con poca matriz extracelular", "Rico en sustancia fundamental", "Principal reservorio energético"], "answer": 1}, {"q": "Una función típica del epitelio es:", "options": ["Formar osteonas", "Absorción y secreción", "Conducir impulsos eléctricos cardíacos", "Formar trabéculas óseas"], "answer": 1}, {"q": "La membrana basal sirve principalmente como:", "options": ["Zona de eritropoyesis", "Nexo de unión entre epitelio y tejido conectivo", "Reserva de triglicéridos", "Vaina del axón"], "answer": 1}, {"q": "El epitelio pseudoestratificado se caracteriza porque:", "options": ["No toca la membrana basal", "Todas sus células tocan la membrana basal", "Tiene más de cinco capas verdaderas", "Carece de núcleos"], "answer": 1}, {"q": "Las células pavimentosas son:", "options": ["Más altas que anchas", "Planas y delgadas", "Variables como en vejiga", "Redondeadas y multinucleadas"], "answer": 1}, {"q": "Las células transicionales son típicas de:", "options": ["Tráquea", "Intestino delgado", "Vejiga", "Trompa uterina"], "answer": 2}, {"q": "El endotelio de vasos sanguíneos corresponde a:", "options": ["Epitelio pavimentoso simple", "Epitelio cúbico estratificado", "Epitelio cilíndrico simple ciliado", "Epitelio transicional"], "answer": 0}, {"q": "Los túbulos renales se asocian típicamente con:", "options": ["Epitelio cúbico simple", "Epitelio pseudoestratificado", "Epitelio pavimentoso estratificado", "Epitelio transicional"], "answer": 0}, {"q": "La trompa uterina presenta típicamente:", "options": ["Epitelio cilíndrico simple ciliado", "Epitelio cúbico estratificado", "Epitelio transicional", "Epitelio pavimentoso queratinizado"], "answer": 0}, {"q": "La función principal del epitelio glandular es:", "options": ["Soporte mecánico", "Secreción", "Conducción nerviosa", "Contracción"], "answer": 1}, {"q": "Las glándulas endocrinas:", "options": ["Secretan a conductos", "Tienen efecto a distancia mediante hormonas", "Siempre son tubulares simples", "Desembocan sobre epitelio de revestimiento"], "answer": 1}, {"q": "Las glándulas exocrinas:", "options": ["Carecen de conductos", "Secretan hormonas a sangre", "Secretan a conductos", "Sólo existen en la piel"], "answer": 2}, {"q": "En una glándula simple:", "options": ["El conducto principal está ramificado", "El conducto principal no se ramifica", "No existe porción secretora", "Sólo puede ser endocrina"], "answer": 1}, {"q": "El tejido conectivo se caracteriza por ser:", "options": ["Escasamente vascularizado siempre", "Ampliamente distribuido y generalmente muy vascularizado", "Avascular como regla general", "Formado sólo por fibras"], "answer": 1}, {"q": "Una función del tejido conectivo es:", "options": ["Formar exclusivamente hormonas", "Sostener y fortificar otros tejidos", "Producir impulsos nerviosos", "Realizar peristaltismo"], "answer": 1}, {"q": "Las células inmaduras del tejido conectivo terminan en:", "options": ["-cito", "-blasto", "-clasto", "-soma"], "answer": 1}, {"q": "Los fibroblastos son:", "options": ["Fagocitos circulantes", "Los más numerosos y secretan matriz", "Células grasas", "Células inmunitarias exclusivas de sangre"], "answer": 1}, {"q": "Los mastocitos participan sobre todo en:", "options": ["La osificación", "La respuesta inflamatoria", "La queratinización", "La formación de mielina"], "answer": 1}, {"q": "La sustancia fundamental del tejido conectivo puede ser:", "options": ["Sólo líquida", "Sólo calcificada", "Líquida, semilíquida, gelatinosa o calcificada", "Sólo gelatinosa"], "answer": 2}, {"q": "El ácido hialurónico destaca por:", "options": ["Formar mielina", "Ser una sustancia viscosa que lubrica y une células", "Producir queratina", "Anclar osteocitos"], "answer": 1}, {"q": "Las fibras de colágeno se caracterizan por:", "options": ["Gran elasticidad hasta 150%", "Resistencia a tracción y estiramiento", "Conducir impulsos", "Formar conexones"], "answer": 1}, {"q": "Las fibras elásticas están formadas principalmente por:", "options": ["Queratina", "Elastina y fibrilina", "Actina y miosina", "Condroitinsulfato y colágeno II"], "answer": 1}, {"q": "Las fibras reticulares abundan especialmente en:", "options": ["Bazo y ganglios linfáticos", "Esmalte dental", "Epidermis queratinizada", "Placa neural"], "answer": 0}, {"q": "El tejido conectivo laxo incluye:", "options": ["Sólo cartílago y hueso", "Areolar, adiposo y reticular", "Regular e irregular", "Sangre y linfa únicamente"], "answer": 1}, {"q": "El cartílago se diferencia de otros conectivos porque:", "options": ["Es muy vascularizado", "Carece de nervios y vasos en su matriz", "Tiene osteonas", "Presenta discos intercalares"], "answer": 1}, {"q": "El cartílago cicatriza con lentitud porque:", "options": ["Tiene exceso de nervios", "Carece de irrigación sanguínea propia", "Está formado por epitelio", "Su pericondrio no tiene células"], "answer": 1}, {"q": "Las células maduras del cartílago se denominan:", "options": ["Condroblastos", "Condrocitos", "Osteocitos", "Fibrocitos"], "answer": 1}, {"q": "El pericondrio es:", "options": ["Una membrana de epitelio queratinizado", "Tejido conectivo denso irregular que cubre la mayor parte del cartílago", "La cavidad del cartílago articular", "La matriz calcificada del cartílago"], "answer": 1}, {"q": "El sistema esquelético incluye cartílago, articulaciones y huesos, y una función del hueso es:", "options": ["Sólo almacenar glucosa", "Alojar médula ósea roja y almacenar calcio y fósforo", "Secretar surfactante", "Formar cilios"], "answer": 1}, {"q": "La unidad fundamental del hueso compacto es:", "options": ["La trabécula", "La osteona o sistema de Havers", "La laguna condral", "El menisco"], "answer": 1}, {"q": "En el hueso compacto, las lagunas contienen:", "options": ["Osteoclastos gigantes", "Osteocitos", "Condrocitos", "Adipocitos"], "answer": 1}, {"q": "El hueso esponjoso se caracteriza por:", "options": ["Presentar osteonas abundantes", "Carecer de osteonas y poseer trabéculas", "Ser avascular", "No contener médula"], "answer": 1}, {"q": "La sangre se considera tejido conectivo porque posee:", "options": ["Matriz extracelular líquida y elementos formes", "Queratina abundante", "Sólo fibras reticulares", "Epitelio cilíndrico ciliado"], "answer": 0}, {"q": "Los eritrocitos tienen como función principal:", "options": ["Coagulación", "Transporte de oxígeno y CO2", "Respuesta alérgica", "Producción de histamina"], "answer": 1}, {"q": "Las plaquetas participan sobre todo en:", "options": ["Fagocitosis", "Coagulación sanguínea", "Formación de melanina", "Mielinización"], "answer": 1}, {"q": "La linfa se parece al plasma pero tiene:", "options": ["Más proteínas", "Menor contenido de proteínas", "Sólo eritrocitos", "Mayor contenido fijo de calcio"], "answer": 1}, {"q": "Las membranas mucosas tapizan:", "options": ["Cavidades que no desembocan al exterior", "Cavidades que desembocan directamente al exterior", "Sólo articulaciones", "Sólo cavidad pericárdica"], "answer": 1}, {"q": "Las membranas serosas están revestidas por:", "options": ["Endotelio", "Mesotelio pavimentoso simple", "Epitelio transicional", "Epitelio queratinizado"], "answer": 1}, {"q": "La homeostasis se define como:", "options": ["La destrucción programada celular", "El mantenimiento de condiciones relativamente estables del medio interno", "La división meiótica de gametos", "La capacidad de locomoción"], "answer": 1}, {"q": "El sistema tegumentario incluye:", "options": ["Sólo la epidermis", "Piel y estructuras anejas como pelo, glándulas y uñas", "Sólo dermis y vasos", "Huesos y músculos"], "answer": 1}, {"q": "Una función del sistema tegumentario es:", "options": ["Sintetizar vitamina D", "Formar eritrocitos en médula roja", "Originar linfocitos T exclusivamente", "Bombear sangre"], "answer": 0}, {"q": "La piel es el órgano más grande en cuanto a:", "options": ["Longitud", "Peso", "Número de células nerviosas", "Contenido de cartílago"], "answer": 1}, {"q": "La piel está formada por:", "options": ["Epidermis y dermis; la hipodermis no pertenece a la piel", "Dermis y tejido óseo", "Sólo epidermis", "Hipodermis y periostio"], "answer": 0}, {"q": "La epidermis es:", "options": ["Tejido conectivo denso irregular", "Epitelio pavimentoso estratificado queratinizado", "Epitelio simple cilíndrico", "Fibrocartílago"], "answer": 1}, {"q": "Los queratinocitos representan aproximadamente:", "options": ["8%", "20%", "50%", "90%"], "answer": 3}, {"q": "La función principal de los queratinocitos es:", "options": ["Producir melanina", "Producir queratina y proteger", "Fagocitar microorganismos como función principal", "Detectar vibración"], "answer": 1}, {"q": "Los melanocitos producen:", "options": ["Queratohialina", "Melanina", "Histamina", "Colágeno"], "answer": 1}, {"q": "Las células de Langerhans derivan de:", "options": ["Hígado fetal", "Médula ósea roja", "Cresta neural", "Ectodermo superficial"], "answer": 1}, {"q": "Las células de Merkel se localizan en:", "options": ["La capa más superficial de la dermis", "La capa más profunda de la epidermis", "Sólo hipodermis", "Folículo piloso exclusivamente"], "answer": 1}, {"q": "En la piel delgada existen normalmente:", "options": ["3 estratos", "4 estratos", "5 estratos", "6 estratos"], "answer": 1}, {"q": "El estrato basal o germinativo contiene:", "options": ["Queratinocitos muertos", "Una hilera de queratinocitos cúbicos o cilíndricos y células madre", "Sólo melanocitos", "Sólo fibras elásticas"], "answer": 1}, {"q": "El estrato espinoso se caracteriza por:", "options": ["Ser exclusivo de piel gruesa", "Tener queratinocitos en 8-10 capas y aportar fuerza/flexibilidad", "Carecer de capacidad mitótica", "Formar el pelo"], "answer": 1}, {"q": "En el estrato granuloso aparecen gránulos de:", "options": ["Melanina y elastina", "Queratohialina y gránulos laminares", "Hemoglobina y histamina", "Surfactante y moco"], "answer": 1}, {"q": "El estrato lúcido:", "options": ["Está presente en toda la piel", "Sólo existe en la piel gruesa", "Es una parte de la dermis", "Contiene capilares abundantes"], "answer": 1}, {"q": "La queratinización completa desde la capa basal hasta la descamación dura aproximadamente:", "options": ["24 horas", "4-6 semanas", "6 meses", "1 año"], "answer": 1}, {"q": "La dermis está formada principalmente por:", "options": ["Epitelio simple", "Tejido conectivo denso irregular", "Cartílago hialino", "Tejido óseo esponjoso"], "answer": 1}, {"q": "La región papilar de la dermis contiene:", "options": ["Sólo adipocitos", "Papilas dérmicas con asas capilares y corpúsculos de Meissner", "Osteonas", "Glándulas apocrinas exclusivamente"], "answer": 1}, {"q": "La región reticular de la dermis contiene:", "options": ["Haces gruesos de colágeno y estructuras anexas", "Únicamente células de Merkel", "Sólo tejido adiposo blanco", "Sólo epitelio glandular"], "answer": 0}, {"q": "El pelo protege especialmente:", "options": ["Sólo el sistema endocrino", "Cuero cabelludo, ojos y entradas de vías respiratorias", "Únicamente la vejiga", "El corazón"], "answer": 1}, {"q": "El tallo del pelo es:", "options": ["La porción que penetra en dermis", "La parte superficial que emerge sobre la piel", "La papila conjuntiva", "La vaina dérmica"], "answer": 1}, {"q": "La médula del pelo es:", "options": ["La capa más externa", "La capa interna", "La capa formada por una sola hilera queratinizada plana", "El músculo erector"], "answer": 1}, {"q": "La cutícula del pelo corresponde a:", "options": ["La capa media principal", "La capa más externa", "La papila del pelo", "La matriz dérmica"], "answer": 1}, {"q": "El bulbo piloso contiene:", "options": ["Sólo músculo liso", "Papila del pelo y matriz del pelo", "Sólo melanocitos dérmicos", "Una osteona"], "answer": 1}, {"q": "El músculo erector del pelo al contraerse:", "options": ["Disminuye la queratinización", "Eleva el pelo", "Cierra glándulas sudoríparas", "Dilata capilares"], "answer": 1}, {"q": "Las glándulas sebáceas son típicamente:", "options": ["Tubulares simples espiraladas", "Acinares redondas simples asociadas a folículos pilosos", "Endocrinas puras", "Exclusivas de palmas y plantas"], "answer": 1}, {"q": "El sebo sirve para:", "options": ["Endurecer las uñas", "Mantener la piel suave y flexible e inhibir bacterias", "Regular directamente la glucemia", "Formar la lúnula"], "answer": 1}, {"q": "Las glándulas sudoríparas ecrinas son:", "options": ["Menos numerosas y axilares", "Tubulares simples más numerosas y termorreguladoras", "Exclusivas del conducto auditivo", "Asociadas sólo a barba"], "answer": 1}, {"q": "Las glándulas apocrinas desembocan en:", "options": ["La sangre", "El folículo piloso", "La cavidad pleural", "El conducto nasolagrimal"], "answer": 1}, {"q": "Las glándulas ceruminosas producen junto con secreción sebácea:", "options": ["Surfactante", "Cerumen", "Melanina", "Líquido sinovial"], "answer": 1}, {"q": "La lúnula de la uña es:", "options": ["El borde libre", "La media luna blanquecina proximal", "La raíz oculta", "El lecho ungueal distal"], "answer": 1}, {"q": "La matriz de la uña:", "options": ["No tiene capacidad proliferativa", "Produce nuevas células de la uña", "Es tejido óseo", "Equivale al hiponiquio"], "answer": 1}, {"q": "La piel contribuye a la termorregulación mediante:", "options": ["Sudoración y ajuste del flujo sanguíneo dérmico", "Únicamente producción de sebo", "Sólo piloerección", "Contracción de la epidermis"], "answer": 0}, {"q": "El sistema locomotor está constituido por:", "options": ["Sólo huesos", "Huesos, articulaciones y músculos", "Sólo músculos y nervios", "Piel y anejos"], "answer": 1}, {"q": "Una función de los huesos es:", "options": ["Servir de palancas para el movimiento", "Secretar moco", "Filtrar el aire", "Producir surfactante"], "answer": 0}, {"q": "En el adulto hay aproximadamente:", "options": ["180 huesos", "206 huesos", "230 huesos", "260 huesos"], "answer": 1}, {"q": "Los huesos largos se caracterizan porque:", "options": ["Predomina la anchura", "Predomina la longitud sobre anchura y espesor", "Son cúbicos", "Se forman sólo en el cráneo"], "answer": 1}, {"q": "La diáfisis corresponde a:", "options": ["Los extremos del hueso", "La parte central del hueso largo", "La placa epifisaria", "El cartílago articular"], "answer": 1}, {"q": "La metáfisis es:", "options": ["La parte central esponjosa del esternón", "La zona de transición entre diáfisis y epífisis", "El periostio", "La cavidad medular"], "answer": 1}, {"q": "Los huesos del carpo y tarso son típicamente:", "options": ["Largos", "Cortos", "Planos", "Sesamoideos"], "answer": 1}, {"q": "Los huesos planos destacan por:", "options": ["Función de protección y amplia inserción muscular", "Predominio de longitud", "Formarse dentro de tendones", "Carecer de médula"], "answer": 0}, {"q": "Ejemplo de hueso irregular es:", "options": ["Fémur", "Escápula", "Vértebra", "Radio"], "answer": 2}, {"q": "Los huesos sesamoideos se forman:", "options": ["En las cavidades serosas", "Dentro de ciertos tendones sometidos a fricción", "En el disco intervertebral", "En el pericardio"], "answer": 1}, {"q": "La placa epifisaria está formada por:", "options": ["Fibrocartílago", "Cartílago hialino", "Hueso compacto", "Tejido adiposo"], "answer": 1}, {"q": "El cartílago articular reduce:", "options": ["La vascularización", "La fricción y absorbe impactos", "La longitud ósea", "La síntesis proteica"], "answer": 1}, {"q": "El periostio contiene:", "options": ["Sólo epitelio", "Una capa fibrosa externa y una capa osteogénica interna", "Sólo médula roja", "Sólo cartílago"], "answer": 1}, {"q": "Las fibras de Sharpey sirven para:", "options": ["Formar osteonas", "Unir el periostio al hueso subyacente", "Unir epitelio a lámina basal", "Suspender meniscos"], "answer": 1}, {"q": "La cavidad medular del adulto contiene principalmente:", "options": ["Médula ósea amarilla", "Líquido sinovial", "Condrocitos", "Aire"], "answer": 0}, {"q": "El endostio reviste:", "options": ["La superficie externa del hueso", "La cavidad medular", "El cartílago articular", "La cavidad pleural"], "answer": 1}, {"q": "El hueso compacto representa aproximadamente del esqueleto:", "options": ["20%", "40%", "60%", "80%"], "answer": 3}, {"q": "El esqueleto axial incluye:", "options": ["Miembros superiores e inferiores", "Craneo, columna, costillas y esternón", "Sólo pelvis", "Sólo cintura escapular"], "answer": 1}, {"q": "El esqueleto apendicular incluye:", "options": ["Craneo y vértebras", "Miembros y cinturas escapular y pelviana", "Costillas y esternón", "Sólo manos y pies"], "answer": 1}, {"q": "Funcionalmente, una sinartrosis es una articulación:", "options": ["Libre", "Ligeramente móvil", "Sin movimiento", "Multiaxial"], "answer": 2}, {"q": "Estructuralmente, las articulaciones sinoviales se caracterizan por:", "options": ["No tener cavidad", "Tener cavidad sinovial y cápsula articular", "Unirse sólo por fibrocartílago", "Ser siempre inmóviles"], "answer": 1}, {"q": "Una sutura craneal es una articulación:", "options": ["Fibrosa", "Cartilaginosa", "Sinovial", "Esferoidea"], "answer": 0}, {"q": "La placa epifisaria es un ejemplo de:", "options": ["Sínfisis", "Sincondrosis", "Sindesmosis", "Enartrosis"], "answer": 1}, {"q": "La sínfisis del pubis es una articulación:", "options": ["Fibrosa", "Sinovial", "Cartilaginosa tipo sínfisis", "Trocoide"], "answer": 2}, {"q": "Las artrodias o articulaciones planas permiten sobre todo:", "options": ["Flexión-extensión exclusiva", "Deslizamientos y en ocasiones rotación", "Sólo rotación axial", "Circunducción amplia"], "answer": 1}, {"q": "Una articulación troclear o gínglimo es:", "options": ["Uniaxial de flexión-extensión", "Biaxial de rotación", "Multiaxial", "Plana sin movimiento"], "answer": 0}, {"q": "La articulación atlantoaxoidea es un ejemplo de:", "options": ["Condílea", "Trocoide", "Silla de montar", "Enartrosis"], "answer": 1}, {"q": "Las articulaciones metacarpofalángicas son típicamente:", "options": ["Trocleares", "Condíleas", "Trocoides", "Fibrosas"], "answer": 1}, {"q": "La carpometacarpiana del pulgar es una articulación:", "options": ["Trocoide", "Silla de montar", "Artrodia", "Sínfisis"], "answer": 1}, {"q": "Hombro y cadera son ejemplos de:", "options": ["Enartrosis", "Condíleas", "Sindesmosis", "Sincondrosis"], "answer": 0}, {"q": "El cartílago articular de una articulación sinovial es de tipo:", "options": ["Fibrocartílago", "Cartílago hialino", "Cartílago elástico", "Hueso laminar"], "answer": 1}, {"q": "La cápsula articular está formada por:", "options": ["Membrana fibrosa externa y membrana sinovial interna", "Periostio y pericondrio", "Endostio y endocardio", "Pleura visceral y parietal"], "answer": 0}, {"q": "El líquido sinovial sirve para:", "options": ["Osificar la epífisis", "Lubricar, amortiguar y nutrir el cartílago articular", "Pigmentar la dermis", "Filtrar el aire"], "answer": 1}, {"q": "Los meniscos son:", "options": ["Discos de cartílago elástico", "Almohadillas de fibrocartílago intraarticulares", "Pliegues mucosos", "Glándulas sinoviales"], "answer": 1}, {"q": "El labrum o rodete articular:", "options": ["Disminuye la profundidad articular", "Profundiza la cavidad articular", "Es una válvula", "Es exclusivo de la rodilla"], "answer": 1}, {"q": "La pronación y la supinación se restringen principalmente a:", "options": ["La pierna", "El antebrazo", "La columna cervical", "La cadera"], "answer": 1}, {"q": "La inversión y eversión son movimientos específicos de:", "options": ["Hombro", "Pie", "Codo", "Columna"], "answer": 1}, {"q": "El epimisio rodea:", "options": ["Cada fibra individual", "Cada fascículo", "Todo el músculo", "Sólo el tendón"], "answer": 2}, {"q": "El perimisio rodea:", "options": ["Todo el músculo", "Grupos de fibras llamados fascículos", "Sólo una fibra", "La cavidad medular"], "answer": 1}, {"q": "El endomisio separa:", "options": ["Vientres musculares", "Fibras musculares individuales", "Huesos de la articulación", "Capas de epidermis"], "answer": 1}, {"q": "Además del intercambio gaseoso, el sistema respiratorio contribuye a:", "options": ["Regular el pH sanguíneo", "Formar médula ósea", "Sintetizar insulina", "Formar melanina"], "answer": 0}, {"q": "La ventilación pulmonar consiste en:", "options": ["Intercambio alveolocapilar", "Intercambio tisular", "Inhalación y exhalación", "Producción de voz"], "answer": 2}, {"q": "La respiración externa es:", "options": ["Intercambio entre sangre sistémica y tejidos", "Intercambio entre alveolos y capilares pulmonares", "Sólo entrada de aire", "Sólo salida de aire"], "answer": 1}, {"q": "La zona de conducción incluye:", "options": ["Sólo alveolos", "Nariz, faringe, laringe, tráquea, bronquios y bronquiolos terminales", "Sólo bronquiolos respiratorios", "Sólo sacos alveolares"], "answer": 1}, {"q": "La zona respiratoria incluye:", "options": ["Nariz y faringe", "Bronquiolos respiratorios, conductos alveolares, sacos alveolares y alveolos", "Sólo tráquea", "Sólo laringe"], "answer": 1}, {"q": "La porción externa de la nariz está sostenida por hueso y:", "options": ["Fibrocartílago exclusivamente", "Cartílago hialino", "Cartílago elástico", "Tejido óseo compacto solamente"], "answer": 1}, {"q": "Las narinas internas también se llaman:", "options": ["Meatos", "Coanas", "Cornetes", "Vestíbulos"], "answer": 1}, {"q": "Los senos paranasales se localizan en huesos:", "options": ["Frontal, esfenoides, etmoides y maxilar", "Sólo frontal y parietal", "Occipital y temporal", "Mandíbula y vómer"], "answer": 0}, {"q": "La región respiratoria de la cavidad nasal está tapizada por:", "options": ["Epitelio pavimentoso queratinizado", "Epitelio cilíndrico ciliado pseudoestratificado", "Epitelio transicional", "Mesotelio"], "answer": 1}, {"q": "Los cornetes y meatos nasales:", "options": ["Disminuyen la superficie", "Aumentan la superficie y ayudan a calentar/humidificar el aire", "Conectan con alveolos", "Forman las cuerdas vocales"], "answer": 1}, {"q": "El moco nasal ayuda a:", "options": ["Aumentar la tensión superficial alveolar", "Humidificar el aire y atrapar partículas", "Osificar tabique nasal", "Formar surfactante"], "answer": 1}, {"q": "La nasofaringe se reviste por:", "options": ["Epitelio pavimentoso estratificado no queratinizado", "Epitelio cilíndrico pseudoestratificado ciliado", "Mesotelio", "Endotelio"], "answer": 1}, {"q": "La bucofaringe está revestida por:", "options": ["Epitelio cilíndrico ciliado", "Epitelio pavimentoso estratificado no queratinizado", "Epitelio transicional", "Epitelio queratinizado"], "answer": 1}, {"q": "La laringe se sitúa aproximadamente entre:", "options": ["C1-C2", "C4-C6", "T1-T3", "T8-T10"], "answer": 1}, {"q": "Los cartílagos impares de la laringe son:", "options": ["Tiroides, epiglotis y cricoides", "Aritenoides, corniculados y cuneiformes", "Tiroides y aritenoides", "Cricoides y corniculados"], "answer": 0}, {"q": "La epiglotis está formada por:", "options": ["Cartílago hialino", "Cartílago elástico", "Fibrocartílago", "Tejido óseo"], "answer": 1}, {"q": "Durante la deglución, la epiglotis:", "options": ["Abre la glotis", "Cubre la glotis y dirige alimento al esófago", "Forma la voz", "Dilata la tráquea"], "answer": 1}, {"q": "Las cuerdas vocales verdaderas corresponden a:", "options": ["Pliegues vestibulares", "Pliegues vocales", "Cornetes", "Alerones nasales"], "answer": 1}, {"q": "La tráquea se divide a nivel aproximado de:", "options": ["C6", "T1", "T5", "T10"], "answer": 2}, {"q": "Los anillos traqueales son:", "options": ["Completos y óseos", "Incompletos en forma de C de cartílago hialino", "Elásticos completos", "Fibrosos"], "answer": 1}, {"q": "El bronquio principal derecho es:", "options": ["Más horizontal y estrecho", "Más vertical, corto y ancho", "Idéntico al izquierdo", "Más largo y fino"], "answer": 1}, {"q": "Las células de Clara en bronquiolos terminales:", "options": ["Son muy ciliadas y forman moco abundante", "Protegen frente a toxinas, producen surfactante y actúan como reserva", "Forman capilares", "Son eritrocitos especializados"], "answer": 1}, {"q": "La pleura parietal:", "options": ["Reviste el pulmón", "Tapiza la pared de la cavidad torácica", "Forma alveolos", "Es una válvula"], "answer": 1}, {"q": "El pulmón izquierdo es menor porque presenta:", "options": ["Un lóbulo extra", "Incisura cardíaca", "Mayor base diafragmática", "Dos cisuras horizontales"], "answer": 1}, {"q": "El pulmón derecho posee:", "options": ["Dos lóbulos", "Tres lóbulos", "Cuatro lóbulos", "Un solo lóbulo"], "answer": 1}, {"q": "Las células alveolares tipo I:", "options": ["Secretan surfactante principalmente", "Son el principal sitio de intercambio gaseoso", "Forman cartílago", "Originan eritrocitos"], "answer": 1}, {"q": "Las células alveolares tipo II:", "options": ["Son macrófagos alveolares", "Secretan líquido alveolar con surfactante", "Forman la membrana sinovial", "No tienen microvellosidades"], "answer": 1}, {"q": "La membrana respiratoria incluye:", "options": ["Pared alveolar, membranas basales fusionadas y endotelio capilar", "Sólo epitelio alveolar", "Pleura visceral y parietal", "Tráquea y bronquios"], "answer": 0}, {"q": "Las arterias pulmonares transportan:", "options": ["Sangre oxigenada", "Sangre desoxigenada", "Linfa", "Sólo plasma"], "answer": 1}, {"q": "El centro respiratorio bulbar incluye:", "options": ["Grupo respiratorio dorsal y ventral", "Sólo quimiorreceptores periféricos", "Sólo corteza motora", "Nódulo AV"], "answer": 0}, {"q": "La caja torácica está formada por:", "options": ["Vértebras cervicales, esternón y clavículas", "12 vértebras torácicas, esternón y 12 pares de costillas con cartílagos", "Sólo costillas verdaderas", "Sólo esternón y diafragma"], "answer": 1}, {"q": "El esternón se compone de:", "options": ["Manubrio, cuerpo y apófisis xifoides", "Cabeza, cuello y cuerpo", "Base, ápex y cuerpo", "Lámina y pedículo"], "answer": 0}, {"q": "Las costillas verdaderas son:", "options": ["8 a 10", "11 y 12", "1 a 7", "Todas"], "answer": 2}, {"q": "Las costillas flotantes son:", "options": ["1 y 2", "7 y 8", "11 y 12", "9 y 10"], "answer": 2}, {"q": "La articulación de la cabeza de la costilla es una sinovial:", "options": ["Trocoide", "Plana", "Esferoidea", "Condílea"], "answer": 1}, {"q": "La articulación costotransversa falta típicamente en:", "options": ["1ª y 2ª costillas", "7ª y 8ª costillas", "11ª y 12ª costillas", "Todas las falsas"], "answer": 2}, {"q": "El músculo intercostal externo es principalmente:", "options": ["Espiratorio", "Inspiratorio", "Masticador", "Extensor del tronco"], "answer": 1}, {"q": "El músculo intercostal interno es principalmente:", "options": ["Inspiratorio", "Espiratorio", "Flexor del cuello", "Abductor del hombro"], "answer": 1}, {"q": "El diafragma es el principal músculo:", "options": ["Espiratorio", "Inspiratorio", "De la fonación", "Masticatorio"], "answer": 1}, {"q": "La inervación motora del diafragma procede de:", "options": ["Nervios vagos", "Nervios frénicos C3-C5", "Intercostales 1-3", "Simpático cervical"], "answer": 1}, {"q": "La sangre pasa de la aurícula izquierda al ventrículo izquierdo a través de la válvula:", "options": ["Tricúspide", "Pulmonar", "Mitral o bicúspide", "Aórtica"], "answer": 2}];
+    const PER_PAGE = 20;
+    let currentPage = 1;
+    let corrected = false;
+    const userAnswers = Array(QUESTIONS.length).fill(null);
+
+    const quiz = document.getElementById("quiz");
+    const progressPill = document.getElementById("progressPill");
+    const answeredPill = document.getElementById("answeredPill");
+    const pageIndicator = document.getElementById("pageIndicator");
+    const resultBox = document.getElementById("resultBox");
+    const scoreText = document.getElementById("scoreText");
+    const summaryText = document.getElementById("summaryText");
+
+    function renderPage() {
+      quiz.innerHTML = "";
+      const totalPages = Math.ceil(QUESTIONS.length / PER_PAGE);
+      const start = (currentPage - 1) * PER_PAGE;
+      const end = Math.min(start + PER_PAGE, QUESTIONS.length);
+
+      progressPill.textContent = `Página ${currentPage} de ${totalPages} · Preguntas ${start + 1}-${end}`;
+      pageIndicator.textContent = `${currentPage} / ${totalPages}`;
+      answeredPill.textContent = `Respondidas: ${userAnswers.filter(v => v !== null).length} / ${QUESTIONS.length}`;
+
+      for (let i = start; i < end; i++) {
+        const q = QUESTIONS[i];
+        const wrapper = document.createElement("article");
+        wrapper.className = "question";
+
+        const title = document.createElement("h3");
+        title.textContent = q.q;
+        wrapper.appendChild(title);
+
+        const options = document.createElement("div");
+        options.className = "options";
+
+        q.options.forEach((opt, idx) => {
+          const label = document.createElement("label");
+          label.className = "option";
+
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = `q_${i}`;
+          input.value = idx;
+          input.checked = userAnswers[i] === idx;
+          input.addEventListener("change", () => {
+            userAnswers[i] = idx;
+            answeredPill.textContent = `Respondidas: ${userAnswers.filter(v => v !== null).length} / ${QUESTIONS.length}`;
+          });
+
+          if (corrected) {
+            if (idx === q.answer) label.classList.add("correct");
+            if (userAnswers[i] === idx && idx !== q.answer) label.classList.add("incorrect");
+          }
+
+          label.appendChild(input);
+          label.append(document.createTextNode(letter(idx) + ") " + opt));
+          options.appendChild(label);
+        });
+
+        wrapper.appendChild(options);
+
+        if (corrected) {
+          const fb = document.createElement("div");
+          if (userAnswers[i] === q.answer) {
+            fb.className = "feedback ok";
+            fb.textContent = "✔ Correcta";
+          } else {
+            fb.className = "feedback bad";
+            const selected = userAnswers[i] === null ? "Sin responder" : letter(userAnswers[i]);
+            fb.textContent = `✘ Incorrecta · Tu respuesta: ${selected} · Correcta: ${letter(q.answer)}`;
+          }
+          wrapper.appendChild(fb);
+        }
+
+        quiz.appendChild(wrapper);
+      }
+
+      document.getElementById("btnPrev").disabled = currentPage === 1;
+      document.getElementById("btnNext").disabled = currentPage === totalPages;
+      document.getElementById("btnPrev").style.opacity = currentPage === 1 ? ".6" : "1";
+      document.getElementById("btnNext").style.opacity = currentPage === totalPages ? ".6" : "1";
+    }
+
+    function letter(n) {
+      return ["A", "B", "C", "D"][n];
+    }
+
+    function correctTest(showOnlyAnswers = false) {
+      corrected = true;
+      const answered = userAnswers.filter(v => v !== null).length;
+      let correct = 0;
+      let wrong = 0;
+      let blank = 0;
+
+      QUESTIONS.forEach((q, i) => {
+        if (userAnswers[i] === null) {
+          blank++;
+        } else if (userAnswers[i] === q.answer) {
+          correct++;
+        } else {
+          wrong++;
+        }
+      });
+
+      const scoreOver10 = ((correct / QUESTIONS.length) * 10).toFixed(2);
+
+      resultBox.style.display = "block";
+      scoreText.textContent = `Resultado: ${correct} aciertos · ${wrong} fallos · ${blank} en blanco · Nota: ${scoreOver10} / 10`;
+      summaryText.textContent = showOnlyAnswers
+        ? "Se han mostrado las soluciones de todo el test."
+        : `Has respondido ${answered} de ${QUESTIONS.length} preguntas. El sistema corrige automáticamente todo el examen.`;
+
+      renderPage();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function resetTest() {
+      if (!confirm("¿Seguro que quieres reiniciar todo el test?")) return;
+      for (let i = 0; i < userAnswers.length; i++) userAnswers[i] = null;
+      corrected = false;
+      currentPage = 1;
+      resultBox.style.display = "none";
+      renderPage();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.getElementById("btnPrev").addEventListener("click", () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPage();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    document.getElementById("btnNext").addEventListener("click", () => {
+      const totalPages = Math.ceil(QUESTIONS.length / PER_PAGE);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderPage();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    document.getElementById("btnCorrect").addEventListener("click", () => correctTest(false));
+    document.getElementById("btnShowAnswers").addEventListener("click", () => correctTest(true));
+    document.getElementById("btnReset").addEventListener("click", resetTest);
+
+    renderPage();
+  </script>
+</body>
+</html>
