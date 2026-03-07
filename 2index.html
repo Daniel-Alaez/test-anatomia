@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Test Anatomía 2 – 200 preguntas</title>
+<style>
+:root {
+  --bg:#f5f7fb; --card:#ffffff; --text:#1f2937; --muted:#6b7280;
+  --primary:#2563eb; --primary-2:#1d4ed8; --good:#15803d; --bad:#b91c1c;
+  --warn:#b45309; --border:#dbe3f0;
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family: Arial, Helvetica, sans-serif; background:var(--bg); color:var(--text); }
+.container { max-width: 980px; margin: 0 auto; padding: 24px; }
+.header { background: linear-gradient(135deg, #2563eb, #1e40af); color:white; border-radius:18px; padding:24px; box-shadow:0 10px 30px rgba(37,99,235,.18); }
+.header h1 { margin:0 0 8px 0; font-size: 30px; }
+.header p { margin:4px 0; opacity:.95; }
+.meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+.badge { background: rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); padding:8px 12px; border-radius:999px; font-size:14px; }
+.toolbar { display:flex; flex-wrap:wrap; gap:12px; margin:18px 0 16px; align-items:center; }
+button { border:none; background:var(--primary); color:white; padding:12px 16px; border-radius:12px; font-weight:700; cursor:pointer; transition:.18s ease; }
+button:hover { background:var(--primary-2); transform:translateY(-1px); }
+button.secondary { background:white; color:var(--text); border:1px solid var(--border); }
+button.secondary:hover { background:#eef4ff; }
+button.good { background:var(--good); }
+button.warn { background:var(--warn); }
+.progress-wrap { background:white; border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:16px; }
+.progress-top { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:10px; font-weight:700; }
+.progress-bar { height:14px; background:#e8eef8; border-radius:999px; overflow:hidden; }
+.progress-bar > div { height:100%; width:0%; background:linear-gradient(90deg,#22c55e,#2563eb); transition: width .25s ease; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:22px; box-shadow:0 8px 24px rgba(15,23,42,.05); }
+.question-number { color:var(--primary); font-weight:800; margin-bottom:8px; }
+.question-text { font-size:21px; line-height:1.45; margin-bottom:18px; }
+.options { display:grid; gap:12px; }
+.option { border:2px solid var(--border); border-radius:14px; padding:14px 16px; cursor:pointer; display:flex; gap:12px; align-items:flex-start; transition:.18s ease; background:white; }
+.option:hover { border-color:#9db8ff; background:#f8fbff; }
+.option input { margin-top:3px; transform:scale(1.15); }
+.option.selected { border-color:#60a5fa; background:#eff6ff; }
+.option.correct { border-color:#16a34a; background:#f0fdf4; }
+.option.incorrect { border-color:#dc2626; background:#fef2f2; }
+.option.dimmed { opacity:.75; }
+.feedback { margin-top:18px; padding:14px 16px; border-radius:14px; font-weight:700; display:none; }
+.feedback.good { background:#f0fdf4; color:var(--good); border:1px solid #bbf7d0; }
+.feedback.bad { background:#fef2f2; color:var(--bad); border:1px solid #fecaca; }
+.footer-nav { display:flex; justify-content:space-between; gap:12px; margin-top:18px; }
+.summary { margin-top:18px; background:white; border:1px solid var(--border); border-radius:18px; padding:20px; display:none; }
+.summary h2 { margin-top:0; }
+.summary-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin:14px 0 18px; }
+.kpi { border:1px solid var(--border); border-radius:14px; padding:16px; background:#fafcff; }
+.kpi .label { color:var(--muted); font-size:14px; }
+.kpi .value { font-size:30px; font-weight:800; margin-top:6px; }
+.review-list { display:grid; gap:10px; }
+.review-item { border:1px solid var(--border); border-radius:12px; padding:12px 14px; background:#fff; }
+.review-item strong { color:var(--bad); }
+.legend { color:var(--muted); font-size:14px; }
+@media (max-width: 640px) {
+  .question-text { font-size:18px; }
+  .footer-nav { flex-direction:column; }
+  .footer-nav button { width:100%; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Test Anatomía 2 – 200 preguntas</h1>
+    <p>Modo tipo autoescuela · 4 opciones por pregunta · corrección automática</p>
+    <div class="meta">
+      <div class="badge">200 preguntas</div>
+      <div class="badge">A/B/C/D</div>
+      <div class="badge">Nivel alto · Enfermería</div>
+      <div class="badge">Temas: vasos, linfático, cráneo, columna y músculos</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="secondary" id="shuffleBtn">Mezclar preguntas</button>
+    <button class="secondary" id="resetBtn">Reiniciar test</button>
+    <button class="good" id="showSolutionsBtn">Mostrar soluciones</button>
+    <button class="warn" id="gradeBtn">Corregir test</button>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <div id="progressText">Pregunta 1 de 200</div>
+      <div id="answeredText">Respondidas: 0 / 200</div>
+    </div>
+    <div class="progress-bar"><div id="progressBar"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="question-number" id="questionNumber"></div>
+    <div class="question-text" id="questionText"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="footer-nav">
+      <button class="secondary" id="prevBtn">← Anterior</button>
+      <button id="nextBtn">Siguiente →</button>
+    </div>
+  </div>
+
+  <div class="summary" id="summary">
+    <h2>Resultado</h2>
+    <div class="summary-grid">
+      <div class="kpi"><div class="label">Aciertos</div><div class="value" id="scoreOk">0</div></div>
+      <div class="kpi"><div class="label">Fallos</div><div class="value" id="scoreBad">0</div></div>
+      <div class="kpi"><div class="label">En blanco</div><div class="value" id="scoreBlank">0</div></div>
+      <div class="kpi"><div class="label">Nota sobre 10</div><div class="value" id="scoreMark">0</div></div>
+    </div>
+    <p class="legend">Revisión rápida de preguntas falladas o sin responder:</p>
+    <div class="review-list" id="reviewList"></div>
+  </div>
+</div>
+
+<script>
+const originalQuestions = [{"q": "¿Cuál de los siguientes NO es uno de los cinco tipos principales de vasos sanguíneos?", "options": ["Arterias", "Vénulas", "Conductos linfáticos", "Capilares"], "answer": 2}, {"q": "¿Qué túnica de la pared vascular está en contacto directo con la sangre?", "options": ["Túnica media", "Túnica externa", "Túnica interna o íntima", "Adventicia fibrosa"], "answer": 2}, {"q": "La capa más interna de la túnica íntima está formada por:", "options": ["Endotelio", "Fibrocartílago", "Músculo liso", "Tejido adiposo"], "answer": 0}, {"q": "La lámina elástica interna se localiza entre:", "options": ["La sangre y el endotelio", "La túnica íntima y la media", "La túnica media y la adventicia", "La adventicia y el tejido circundante"], "answer": 1}, {"q": "La túnica media regula principalmente:", "options": ["La composición del plasma", "El diámetro de la luz vascular", "La hematopoyesis", "La coagulación"], "answer": 1}, {"q": "La vasoconstricción se produce por:", "options": ["Relajación del músculo liso vascular", "Aumento del diámetro luminal", "Contracción del músculo liso de la túnica media", "Aumento del número de capilares"], "answer": 2}, {"q": "La vasodilatación implica:", "options": ["Disminución del calibre vascular", "Relajación del músculo liso vascular", "Oclusión del vaso", "Formación de válvulas"], "answer": 1}, {"q": "Los vasa vasorum se encuentran sobre todo en:", "options": ["La túnica externa de vasos grandes", "La luz capilar", "La médula ósea", "Los senos venosos durales"], "answer": 0}, {"q": "Las arterias se caracterizan, en comparación con las venas, por:", "options": ["Presentar siempre válvulas", "Tener paredes más delgadas y colapsables", "Poseer una túnica media más gruesa", "Carecer de fibras elásticas"], "answer": 2}, {"q": "Las grandes arterias elásticas también reciben el nombre de:", "options": ["Arterias de resistencia", "Arterias de conducción", "Arterias terminales", "Vasos de intercambio"], "answer": 1}, {"q": "¿Cuál de las siguientes es una arteria elástica?", "options": ["Arteria radial", "Arteria poplítea", "Aorta", "Arteriola aferente"], "answer": 2}, {"q": "Las arterias musculares también se denominan:", "options": ["Arterias de distribución", "Arterias de conducción", "Vasos de capacitancia", "Sinusoides"], "answer": 0}, {"q": "Una característica de las arterias musculares es que su túnica media contiene:", "options": ["Más músculo liso y menos fibras elásticas que las elásticas", "Solo endotelio", "Más válvulas que las venas", "Menos músculo liso que los capilares"], "answer": 0}, {"q": "¿Qué vaso regula el flujo de sangre hacia las redes capilares?", "options": ["Vena muscular", "Arteriola", "Seno coronario", "Conducto torácico"], "answer": 1}, {"q": "El diámetro aproximado de una arteriola oscila entre:", "options": ["15 y 300 micrómetros", "5 y 10 milímetros", "2 y 3 centímetros", "50 y 70 centímetros"], "answer": 0}, {"q": "La metaarteriola se localiza en:", "options": ["La salida de la vénula", "El extremo terminal de la arteriola", "La aurícula derecha", "El seno carotídeo"], "answer": 1}, {"q": "Los esfínteres precapilares se encargan de:", "options": ["Impulsar la sangre desde la vena cava", "Regular la entrada de sangre al capilar", "Cerrar la aorta en diástole", "Formar el pulso arterial"], "answer": 1}, {"q": "Las arteriolas también se conocen como:", "options": ["Vasos de capacitancia", "Vasos de resistencia", "Vasos linfáticos terminales", "Vasos de retorno"], "answer": 1}, {"q": "La unión de ramas de dos o más arterias que irrigan la misma región se llama:", "options": ["Hilio", "Anastomosis", "Sinusoide", "Fenestración"], "answer": 1}, {"q": "Las arterias que NO se anastomosan se denominan:", "options": ["Arterias satélites", "Arterias viscerales", "Arterias terminales", "Arterias perforantes"], "answer": 2}, {"q": "La principal función de los capilares es:", "options": ["Soportar altas presiones", "Regular el pulso arterial", "Intercambiar sustancias entre sangre y líquido intersticial", "Conducir la linfa"], "answer": 2}, {"q": "Los capilares poseen aproximadamente un diámetro de:", "options": ["5 a 10 micrómetros", "1 a 2 centímetros", "15 a 300 milímetros", "3 a 4 centímetros"], "answer": 0}, {"q": "Los capilares carecen de:", "options": ["Endotelio y membrana basal", "Túnica media y túnica externa bien definidas", "Células endoteliales", "Relación con metaarteriolas"], "answer": 1}, {"q": "¿Qué tipo de capilar predomina en SNC, pulmones, músculo y piel?", "options": ["Fenestrado", "Sinusoide", "Continuo", "Linfático"], "answer": 2}, {"q": "Los capilares fenestrados son característicos de:", "options": ["Riñón e intestino delgado", "SNC y piel", "Tendones y ligamentos", "Aorta y pulmones"], "answer": 0}, {"q": "Los sinusoides presentan:", "options": ["Membrana basal completa y sin poros", "Fenestraciones grandes y membrana basal incompleta o ausente", "Solo una capa muscular", "Válvulas bicúspides"], "answer": 1}, {"q": "¿En cuál de los siguientes órganos son típicos los sinusoides?", "options": ["Bazo", "Piel", "Miocardio", "Córnea"], "answer": 0}, {"q": "Las vénulas poscapilares son importantes porque:", "options": ["Soportan la máxima presión arterial", "También permiten intercambio de sustancias", "Contienen abundantes válvulas", "Forman la pared del corazón"], "answer": 1}, {"q": "En las venas, la túnica más gruesa suele ser:", "options": ["La íntima", "La media", "La externa o adventicia", "La lámina elástica interna"], "answer": 2}, {"q": "Las válvulas venosas son especialmente abundantes en:", "options": ["Miocardio", "Miembros inferiores", "Aorta ascendente", "Arterias cerebrales"], "answer": 1}, {"q": "La función principal de las válvulas venosas es:", "options": ["Aumentar la presión arterial", "Impedir el reflujo sanguíneo", "Filtrar la sangre", "Intercambiar gases"], "answer": 1}, {"q": "La aorta es la arteria más grande del cuerpo y mide aproximadamente de diámetro:", "options": ["2-3 mm", "5-10 µm", "2-3 cm", "15-30 cm"], "answer": 2}, {"q": "¿Cuál NO es una división de la aorta?", "options": ["Aorta ascendente", "Cayado aórtico", "Aorta lumbar", "Aorta abdominal"], "answer": 2}, {"q": "Las arterias coronarias nacen:", "options": ["De la arteria pulmonar", "De la aorta ascendente por encima de la válvula aórtica", "Del cayado aórtico distal", "De la vena cava superior"], "answer": 1}, {"q": "La aorta torácica pasa a llamarse aorta abdominal al atravesar:", "options": ["El foramen magno", "El hiato esofágico", "El hiato aórtico del diafragma", "La incisura cardíaca"], "answer": 2}, {"q": "La aorta abdominal se bifurca a nivel aproximado de:", "options": ["C7", "T4", "L4", "S1"], "answer": 2}, {"q": "Las tres ramas principales del cayado aórtico son:", "options": ["Coronaria derecha, coronaria izquierda y pulmonar", "Tronco braquiocefálico, carótida común izquierda y subclavia izquierda", "Carótida externa derecha, carótida interna derecha y basilar", "Mesentérica superior, tronco celíaco y subclavia derecha"], "answer": 1}, {"q": "El tronco braquiocefálico se divide en:", "options": ["Subclavia izquierda y carótida común izquierda", "Carótida interna y externa derechas", "Subclavia derecha y carótida común derecha", "Axilar y humeral"], "answer": 2}, {"q": "La carótida común se bifurca a nivel de:", "options": ["Borde superior del cartílago tiroides", "Borde inferior del esternón", "Hiato aórtico", "Base del sacro"], "answer": 0}, {"q": "El seno carotídeo es un:", "options": ["Quimiorreceptor localizado en la aorta", "Barorreceptor en la bifurcación carotídea", "Ganglio simpático del tórax", "Capilar fenestrado cerebral"], "answer": 1}, {"q": "La carótida externa irriga principalmente:", "options": ["El encéfalo y la retina exclusivamente", "Todas las estructuras de la cabeza excepto el cuello", "Cara, cavidad oral, tiroides, parte del occipital y oído", "Médula espinal cervical"], "answer": 2}, {"q": "La carótida interna se caracteriza por:", "options": ["Dar seis ramas colaterales cervicales", "No dar ramas colaterales en el cuello", "Terminar en la arteria basilar", "Irrigar la glándula tiroides"], "answer": 1}, {"q": "¿Cuál es la rama terminal más voluminosa de la carótida interna según el temario?", "options": ["Arteria cerebral anterior", "Arteria cerebral posterior", "Arteria cerebral media", "Arteria oftálmica"], "answer": 2}, {"q": "El polígono de Willis conecta:", "options": ["El sistema arterial anterior y el vertebrobasilar", "Solo arterias extracraneales", "Las yugulares internas", "El sistema porta y la cava"], "answer": 0}, {"q": "La función principal del polígono de Willis es:", "options": ["Drenar la sangre venosa del cerebro", "Mantener vascularizado el cerebro si falla una arteria", "Llevar linfa a la cavidad craneal", "Regular el LCR"], "answer": 1}, {"q": "La arteria comunicante anterior une:", "options": ["Las dos carótidas internas", "Las dos cerebrales anteriores", "Las dos cerebrales posteriores", "La basilar con la carótida externa"], "answer": 1}, {"q": "Las arterias vertebrales se unen para formar:", "options": ["La cerebral media", "La comunicante posterior", "La arteria basilar", "La axilar"], "answer": 2}, {"q": "La arteria torácica o mamaria interna es rama de:", "options": ["Carótida externa", "Subclavia", "Aorta abdominal", "Mesentérica superior"], "answer": 1}, {"q": "La arteria axilar es continuación de la:", "options": ["Carótida común", "Subclavia", "Humeral", "Cubital"], "answer": 1}, {"q": "La arteria axilar pasa a llamarse braquial en:", "options": ["El borde distal del músculo redondo mayor", "El borde lateral del esternón", "El hiato aórtico", "La fosa poplítea"], "answer": 0}, {"q": "La arteria braquial termina al bifurcarse en:", "options": ["Radial y cubital", "Axilar y subclavia", "Femoral y poplítea", "Tibial anterior y posterior"], "answer": 0}, {"q": "¿En qué arteria se toma habitualmente el pulso radial?", "options": ["Arteria cubital", "Arteria femoral", "Arteria radial", "Arteria poplítea"], "answer": 2}, {"q": "El arco palmar superficial está formado principalmente por:", "options": ["La arteria radial", "La arteria cubital", "La arteria braquial", "La arteria axilar"], "answer": 1}, {"q": "El arco palmar profundo surge principalmente de:", "options": ["La rama profunda de la arteria radial", "La arteria cubital superficial", "La braquial profunda", "La subclavia"], "answer": 0}, {"q": "La aorta torácica da ramas parietales como:", "options": ["Intercostales posteriores, subcostales y frénicas superiores", "Coronarias y cerebrales medias", "Gástricas y esplénicas", "Renales y gonadales"], "answer": 0}, {"q": "¿Cuál de las siguientes es una rama visceral de la aorta torácica?", "options": ["Arteria bronquial", "Arteria lumbar", "Arteria frénica inferior", "Arteria sacra media"], "answer": 0}, {"q": "La primera rama visceral impar de la aorta abdominal es:", "options": ["Mesentérica inferior", "Tronco celíaco", "Renal derecha", "Gonadal izquierda"], "answer": 1}, {"q": "El tronco celíaco se divide en:", "options": ["Gástrica izquierda, esplénica y hepática común", "Renal, suprarrenal y gonadal", "Mesentérica superior, mesentérica inferior y sacra media", "Axilar, humeral y radial"], "answer": 0}, {"q": "La arteria mesentérica superior nace aproximadamente a nivel de:", "options": ["C7", "T12", "L1", "L5"], "answer": 2}, {"q": "La arteria mesentérica inferior nace aproximadamente a nivel de:", "options": ["T4", "L3", "S1", "L1"], "answer": 1}, {"q": "La arteria renal derecha suele ser más larga que la izquierda porque:", "options": ["Sale más arriba", "Pasa por detrás de la vena cava inferior", "Se une a la esplénica", "Cruza el diafragma"], "answer": 1}, {"q": "Las arterias gonadales reciben nombre de:", "options": ["Ováricas o testiculares según el sexo", "Iliacas comunes en ambos sexos", "Tibiales en varón y radiales en mujer", "Esplénicas accesorias"], "answer": 0}, {"q": "La arteria femoral es continuación de la:", "options": ["Ilíaca interna", "Ilíaca externa", "Poplítea", "Sacra media"], "answer": 1}, {"q": "La arteria poplítea se divide en:", "options": ["Radial y cubital", "Tibial anterior y tibial posterior", "Iliaca interna y externa", "Plantar medial y lateral"], "answer": 1}, {"q": "La arteria dorsal del pie es continuación de la:", "options": ["Tibial posterior", "Tibial anterior", "Peronea", "Femoral profunda"], "answer": 1}, {"q": "Las venas profundas de la circulación sistémica generalmente:", "options": ["No acompañan a arterias", "Llevan nombres diferentes a las arterias", "Acompañan a arterias y suelen llevar su mismo nombre", "Carecen de relevancia clínica"], "answer": 2}, {"q": "Las tres grandes venas sistémicas que devuelven sangre desoxigenada al corazón son:", "options": ["Cava superior, cava inferior y seno coronario", "Porta hepática, ácigos y esplénica", "Yugular interna, subclavia y femoral", "Pulmonares y porta"], "answer": 0}, {"q": "El seno coronario desemboca en:", "options": ["Aurícula izquierda", "Ventrículo derecho", "Aurícula derecha", "Vena cava superior"], "answer": 2}, {"q": "La vena cava superior se forma por la unión de:", "options": ["Las dos yugulares internas", "Los dos troncos braquiocefálicos", "Las dos subclavias", "Las dos cavas inferiores"], "answer": 1}, {"q": "La yugular interna es continuación del:", "options": ["Seno sigmoideo al salir del agujero rasgado posterior", "Seno coronario", "Conducto torácico", "Arco venoso dorsal"], "answer": 0}, {"q": "La vena yugular externa desemboca en:", "options": ["La vena braquiocefálica derecha siempre", "La vena subclavia", "La vena ácigos", "La vena cava inferior"], "answer": 1}, {"q": "Las dos grandes venas superficiales del miembro superior son:", "options": ["Radial y cubital", "Cefálica y basílica", "Humeral y axilar", "Subclavia y braquiocefálica"], "answer": 1}, {"q": "La vena cefálica termina drenando en:", "options": ["La vena poplítea", "La vena axilar", "La vena basílica", "La yugular externa"], "answer": 1}, {"q": "La vena basílica al hacerse profunda se une con las venas braquiales para formar:", "options": ["La vena subclavia", "La vena axilar", "La vena cefálica accesoria", "La cava superior"], "answer": 1}, {"q": "¿Cuál de los siguientes NO forma parte del sistema linfático?", "options": ["Linfa", "Vasos linfáticos", "Médula ósea roja", "Arterias coronarias"], "answer": 3}, {"q": "Cuando el líquido intersticial entra en los vasos linfáticos recibe el nombre de:", "options": ["Plasma", "Suero", "Linfa", "Quilo siempre"], "answer": 2}, {"q": "La principal diferencia entre líquido intersticial y linfa es:", "options": ["Su contenido de agua", "Su localización", "Su color", "Su contenido de eritrocitos"], "answer": 1}, {"q": "El tejido linfático es una forma especializada de:", "options": ["Tejido muscular liso", "Tejido epitelial cilíndrico", "Tejido conectivo reticular", "Cartílago elástico"], "answer": 2}, {"q": "¿Cuál NO es una función del sistema linfático?", "options": ["Drenar exceso de líquido intersticial", "Transportar lípidos de la dieta", "Realizar respuestas inmunitarias", "Bombear sangre oxigenada"], "answer": 3}, {"q": "Los vasos linfáticos comienzan como:", "options": ["Arteriolas", "Capilares linfáticos de extremo ciego", "Senos venosos", "Conductos bronquiales"], "answer": 1}, {"q": "En la piel, los vasos linfáticos suelen seguir el trayecto de:", "options": ["Las arterias", "Las venas", "Los nervios craneales", "Los tendones"], "answer": 1}, {"q": "Los capilares linfáticos se caracterizan por:", "options": ["Menor permeabilidad que los capilares sanguíneos", "Mayor permeabilidad y capacidad de absorber moléculas grandes", "Tener gruesa túnica media", "Carecer de válvulas siempre"], "answer": 1}, {"q": "Los capilares linfáticos especializados del intestino delgado se llaman:", "options": ["Sinusoides", "Quilíferos", "Lacunillas", "Sacos alveolares"], "answer": 1}, {"q": "La linfa del intestino con abundantes lípidos recibe el nombre de:", "options": ["Suero", "Quimo", "Quilo", "Plasma"], "answer": 2}, {"q": "¿Cuál de los siguientes NO es un tronco linfático principal?", "options": ["Lumbar", "Yugular", "Broncomediastínico", "Coronario"], "answer": 3}, {"q": "El tronco linfático intestinal drena principalmente:", "options": ["Miembros superiores", "Estómago, intestinos, páncreas, bazo y parte del hígado", "Cabeza y cuello", "Pared torácica únicamente"], "answer": 1}, {"q": "El cuadrante superior derecho del cuerpo drena linfa hacia:", "options": ["Conducto torácico siempre", "Conducto linfático derecho o desembocadura de los troncos derechos", "Cisterna de quilo", "Vena cava inferior directamente"], "answer": 1}, {"q": "El principal conducto linfático del organismo es:", "options": ["Conducto coronario", "Conducto torácico izquierdo", "Conducto pancreático", "Conducto hepático común"], "answer": 1}, {"q": "La cisterna de quilo se localiza anteriormente a:", "options": ["C2", "T4", "L2", "S1"], "answer": 2}, {"q": "La cisterna de quilo recibe linfa de:", "options": ["Los dos troncos yugulares", "Los troncos lumbares y el intestinal", "Los broncomediastínicos", "Las venas pulmonares"], "answer": 1}, {"q": "El conducto torácico desemboca en la unión de:", "options": ["Yugular interna izquierda y subclavia izquierda", "Yugular interna derecha y subclavia derecha", "Cava superior y aurícula derecha", "Porta hepática y cava inferior"], "answer": 0}, {"q": "El tronco broncomediastínico izquierdo según el temario:", "options": ["Siempre se une al conducto torácico", "Nunca drena en el sistema venoso", "Se une a la superficie anterior de la vena subclavia de forma independiente", "Forma la cisterna de quilo"], "answer": 2}, {"q": "La bomba respiratoria favorece el flujo linfático porque:", "options": ["El corazón succiona la linfa activamente", "Los cambios de presión toracoabdominal desplazan la linfa", "Las arterias la impulsan con válvulas", "Los eritrocitos la arrastran"], "answer": 1}, {"q": "La bomba del músculo esquelético impulsa la linfa al:", "options": ["Comprimir vasos linfáticos durante la contracción muscular", "Dilatar capilares alveolares", "Aumentar la secreción biliar", "Abrir el hiato aórtico"], "answer": 0}, {"q": "Los órganos linfáticos primarios son:", "options": ["Ganglios y bazo", "Timo y médula ósea roja", "Amígdalas y placas de Peyer", "Bazo y timo"], "answer": 1}, {"q": "La mayoría de las respuestas inmunitarias se producen en:", "options": ["Órganos linfáticos secundarios", "Arteriolas terminales", "Discos intervertebrales", "Senos aórticos"], "answer": 0}, {"q": "El timo se localiza en:", "options": ["Hipocondrio izquierdo", "Mediastino entre esternón y aorta", "Pelvis menor", "Región lumbar"], "answer": 1}, {"q": "En el timo maduran principalmente:", "options": ["Eritrocitos", "Células T inmaduras procedentes de la médula ósea", "Plaquetas", "Neutrófilos maduros"], "answer": 1}, {"q": "Con la edad, el timo:", "options": ["Aumenta su tejido linfoide", "Se reemplaza progresivamente por grasa", "Se convierte en bazo", "Forma la cisterna de quilo"], "answer": 1}, {"q": "Los ganglios linfáticos suelen ser más abundantes en grupos como:", "options": ["Axilas e ingles", "Cráneo y órbita", "Diafragma y pericardio", "Arco aórtico y ventrículos"], "answer": 0}, {"q": "En un ganglio linfático, los folículos con centros germinales se sitúan en:", "options": ["La médula", "La corteza externa", "La corteza interna", "El hilio"], "answer": 1}, {"q": "La corteza interna de un ganglio contiene principalmente:", "options": ["Eritrocitos", "Células T y células dendríticas", "Solo adipocitos", "Condrocitos"], "answer": 1}, {"q": "La médula del ganglio linfático contiene:", "options": ["Solo vasos aferentes", "Células B, plasmáticas y macrófagos", "Neuronas motoras", "Células de Purkinje"], "answer": 1}, {"q": "La linfa entra al ganglio por vasos:", "options": ["Eferentes", "Aferentes", "Arteriales", "Portales"], "answer": 1}, {"q": "La linfa sale del ganglio por vasos:", "options": ["Aferentes", "Eferentes que emergen del hilio", "Sinusoides venosos", "Capilares fenestrados"], "answer": 1}, {"q": "Los ganglios linfáticos actúan principalmente como:", "options": ["Bombas activas", "Filtros de la linfa", "Reservorios de eritrocitos fetales", "Articulaciones sinoviales"], "answer": 1}, {"q": "El bazo se localiza en:", "options": ["Hipocondrio derecho", "Hipocondrio izquierdo entre estómago y diafragma", "Mediastino superior", "Cavidad pélvica"], "answer": 1}, {"q": "La pulpa blanca del bazo está relacionada sobre todo con:", "options": ["Senos venosos llenos de sangre", "Funciones inmunitarias alrededor de arterias centrales", "Almacenamiento de bilis", "Producción exclusiva de plaquetas"], "answer": 1}, {"q": "La pulpa roja del bazo participa en:", "options": ["Intercambio gaseoso", "Eliminación de eritrocitos y plaquetas envejecidos", "Producción de LCR", "Masticación"], "answer": 1}, {"q": "¿Cuál de las siguientes es una función del bazo respecto a los eritrocitos?", "options": ["Maduración de eritrocitos en el adulto", "Eliminación de células sanguíneas rotas o defectuosas", "Producción exclusiva de hemoglobina", "Oxigenación sanguínea"], "answer": 1}, {"q": "Los folículos linfáticos sin cápsula asociados a mucosas se denominan:", "options": ["MALT", "BALT solo", "SALT", "CALT"], "answer": 0}, {"q": "Las placas de Peyer se localizan en:", "options": ["Duodeno", "Íleon", "Colon sigmoide", "Nasofaringe"], "answer": 1}, {"q": "¿Cuál es la amígdala impar situada en la pared posterior de la nasofaringe?", "options": ["Palatina", "Lingual", "Faríngea o adenoide", "Tubárica"], "answer": 2}, {"q": "Las amígdalas palatinas se ubican en:", "options": ["La base de la lengua", "La región posterior de la cavidad oral", "La nasofaringe posterior", "El mediastino"], "answer": 1}, {"q": "El esqueleto de la cabeza está formado por:", "options": ["20 huesos", "22 huesos sin contar los del oído medio", "24 huesos contando las clavículas", "26 huesos"], "answer": 1}, {"q": "¿Cuántos huesos craneanos forman el neurocráneo?", "options": ["6", "8", "10", "14"], "answer": 1}, {"q": "¿Cuál de los siguientes es un hueso craneano y no facial?", "options": ["Vómer", "Maxilar", "Etmoides", "Lacrimal"], "answer": 2}, {"q": "¿Cuál de los siguientes es un hueso facial?", "options": ["Esfenoides", "Occipital", "Mandíbula", "Parietal"], "answer": 2}, {"q": "Los huesos del cráneo son mayoritariamente:", "options": ["Largos", "Sesamoideos", "Planos", "Irregulares no articulados"], "answer": 2}, {"q": "Entre las tablas externa e interna de los huesos craneales se encuentra:", "options": ["Núcleo pulposo", "Diploe", "Pulpa blanca", "Pericondrio"], "answer": 1}, {"q": "El hueso frontal forma principalmente:", "options": ["La nuca", "La frente y parte anterior de la base del cráneo", "La mandíbula", "El suelo pélvico"], "answer": 1}, {"q": "La sutura metópica une en el recién nacido:", "options": ["Los dos parietales", "Las dos mitades del frontal", "Frontal y parietal", "Maxilar y nasal"], "answer": 1}, {"q": "El foramen supraorbitario del frontal permite el paso de:", "options": ["Solo venas cavas", "Vasos y nervios supraorbitarios", "La arteria carótida interna", "El nervio olfatorio"], "answer": 1}, {"q": "Los dos huesos parietales se unen entre sí por la sutura:", "options": ["Coronal", "Escamosa", "Sagital", "Lamboidea"], "answer": 2}, {"q": "La sutura lamboidea une:", "options": ["Frontal y parietales", "Parietales y occipital", "Temporal y esfenoides", "Nasal y maxilar"], "answer": 1}, {"q": "El arco cigomático se forma por la unión de:", "options": ["Apófisis estiloides y mandíbula", "Apófisis temporal del zigomático y cigomática del temporal", "Frontal y maxilar", "Etmoides y palatino"], "answer": 1}, {"q": "La articulación temporomandibular se forma entre la mandíbula y:", "options": ["El frontal", "El temporal", "El maxilar", "El occipital"], "answer": 1}, {"q": "La apófisis mastoides del temporal sirve como:", "options": ["Paso de la arteria renal", "Punto de inserción muscular del cuello", "Alojamiento de la hipófisis", "Articulación con el atlas"], "answer": 1}, {"q": "El foramen carotídeo se sitúa en la parte petrosa del:", "options": ["Frontal", "Temporal", "Occipital", "Esfenoides"], "answer": 1}, {"q": "El foramen yugular está entre el temporal y el:", "options": ["Parietal", "Frontal", "Occipital", "Maxilar"], "answer": 2}, {"q": "El foramen magno se encuentra en:", "options": ["Esfenoides", "Etmoides", "Occipital", "Parietal"], "answer": 2}, {"q": "Los cóndilos occipitales se articulan con:", "options": ["El axis", "El atlas", "La mandíbula", "La primera costilla"], "answer": 1}, {"q": "La articulación atlantooccipital permite principalmente:", "options": ["Negar con la cabeza", "Asentir con la cabeza", "Protrusión mandibular", "Rotación lumbar"], "answer": 1}, {"q": "La silla turca del esfenoides aloja:", "options": ["La glándula parótida", "La hipófisis", "El timo", "La glándula tiroides"], "answer": 1}, {"q": "El conducto óptico del esfenoides transmite:", "options": ["Nervio óptico y arteria oftálmica", "Nervio facial y vestibulococlear", "Arteria vertebral", "Nervio hipogloso"], "answer": 0}, {"q": "La crista galli pertenece al:", "options": ["Frontal", "Esfenoides", "Etmoides", "Occipital"], "answer": 2}, {"q": "La lámina cribosa del etmoides forma:", "options": ["El suelo de la órbita", "El techo de la cavidad nasal", "La mandíbula", "El paladar duro"], "answer": 1}, {"q": "Los cornetes nasales superior y medio pertenecen al:", "options": ["Maxilar superior", "Etmoides", "Vómer", "Palatino"], "answer": 1}, {"q": "Los huesos propios de la nariz forman:", "options": ["El tabique nasal completo", "El puente de la nariz", "La pared lateral de la órbita", "El paladar blando"], "answer": 1}, {"q": "El hueso lacrimal contiene una fosa para:", "options": ["El saco lacrimal", "La glándula hipófisis", "La trompa auditiva", "El seno esfenoidal"], "answer": 0}, {"q": "Los huesos palatinos contribuyen a formar:", "options": ["Solo la pared lateral del cráneo", "La parte posterior del paladar duro", "La ATM", "La bóveda craneal"], "answer": 1}, {"q": "Los cornetes nasales inferiores son:", "options": ["Parte del etmoides", "Huesos independientes", "Apófisis del maxilar", "Cartílagos hialinos"], "answer": 1}, {"q": "El vómer forma principalmente:", "options": ["La órbita lateral", "La porción inferior del tabique nasal óseo", "El techo de la nasofaringe", "El arco cigomático"], "answer": 1}, {"q": "Los maxilares superiores forman:", "options": ["Solo los alvéolos inferiores", "Parte del suelo orbitario y la mayor parte del paladar duro", "La región occipital", "El conducto vertebral"], "answer": 1}, {"q": "El foramen infraorbitario del maxilar permite el paso de:", "options": ["La arteria femoral", "Vasos y nervios infraorbitarios", "El nervio óptico", "El nervio facial"], "answer": 1}, {"q": "El paladar hendido se relaciona con:", "options": ["Fusión excesiva de parietales", "Falta de fusión adecuada en estructuras del paladar", "Luxación atlantoaxoidea", "Osificación del hioides"], "answer": 1}, {"q": "Los huesos zigomáticos forman principalmente:", "options": ["La base del cráneo", "La prominencia de las mejillas", "El tabique nasal", "La fosa hipofisaria"], "answer": 1}, {"q": "La mandíbula es:", "options": ["Un hueso fijo del cráneo", "El único hueso móvil de la cabeza aparte de los huesecillos auditivos", "Un hueso del neurocráneo", "Un hueso par"], "answer": 1}, {"q": "La apófisis coronoides de la mandíbula sirve de inserción al músculo:", "options": ["Masetero profundo exclusivamente", "Temporal", "Occipitofrontal", "Platisma"], "answer": 1}, {"q": "El foramen mentoniano suele encontrarse aproximadamente por debajo de:", "options": ["El incisivo central", "El canino superior", "El segundo premolar", "El tercer molar"], "answer": 2}, {"q": "La cavidad nasal se divide en dos fosas por el:", "options": ["Arco cigomático", "Tabique nasal", "Paladar duro", "Seno frontal"], "answer": 1}, {"q": "El tabique nasal está formado por vómer, cartílago del tabique y:", "options": ["Hueso palatino", "Placa perpendicular del etmoides", "Cornete inferior", "Zigomático"], "answer": 1}, {"q": "Cada órbita está formada por:", "options": ["5 huesos", "6 huesos", "7 huesos", "8 huesos"], "answer": 2}, {"q": "Las suturas del cráneo son articulaciones:", "options": ["Sinoviales muy móviles", "Fibrosas generalmente inmóviles en el adulto", "Cartilaginosas temporales", "Esferoideas"], "answer": 1}, {"q": "La fontanela anterior suele cerrarse aproximadamente entre:", "options": ["2 y 4 semanas", "2 y 6 meses", "18 y 24 meses", "5 y 6 años"], "answer": 2}, {"q": "La fontanela posterior suele cerrarse aproximadamente:", "options": ["A los 2 meses", "A los 12 meses", "A los 24 meses", "Al nacer siempre"], "answer": 0}, {"q": "El hueso hioides se caracteriza por:", "options": ["Articularse con la mandíbula", "No articularse con ningún otro hueso", "Ser parte del neurocráneo", "Formar la ATM"], "answer": 1}, {"q": "La columna vertebral del adulto suele contar con:", "options": ["33 vértebras independientes", "26 piezas óseas por fusión sacra y coccígea", "22 vértebras", "24 vértebras móviles"], "answer": 1}, {"q": "¿Cuántas vértebras cervicales hay?", "options": ["5", "7", "12", "8"], "answer": 1}, {"q": "¿Cuántas vértebras torácicas hay?", "options": ["7", "10", "12", "14"], "answer": 2}, {"q": "¿Cuántas vértebras lumbares hay?", "options": ["4", "5", "6", "7"], "answer": 1}, {"q": "Las curvas cervical y lumbar son:", "options": ["Cifosis", "Lordosis", "Escoliosis", "Sin curvas"], "answer": 1}, {"q": "Las curvas torácica y sacra son:", "options": ["Lordosis", "Cifosis", "Escoliosis", "Trócleas"], "answer": 1}, {"q": "Las curvas primarias de la columna son:", "options": ["Cervical y lumbar", "Torácica y sacra", "Lumbar y sacra", "Solo la cervical"], "answer": 1}, {"q": "Los discos intervertebrales representan aproximadamente:", "options": ["5% de la altura vertebral", "25% de la altura de la columna", "50% del peso corporal", "10% del volumen sanguíneo"], "answer": 1}, {"q": "El anillo fibroso de un disco intervertebral está formado por:", "options": ["Cartílago hialino", "Fibrocartílago", "Hueso esponjoso", "Tejido muscular"], "answer": 1}, {"q": "El núcleo pulposo de un disco intervertebral es:", "options": ["Duro y calcificado", "Blando, pulposo y elástico", "Una válvula cartilaginosa", "Un seno venoso"], "answer": 1}, {"q": "El foramen intervertebral permite el paso de:", "options": ["Arterias coronarias", "Un nervio raquídeo", "La aorta", "El conducto torácico"], "answer": 1}, {"q": "¿Cuántas apófisis presenta una vértebra típica?", "options": ["5", "6", "7", "8"], "answer": 2}, {"q": "Las vértebras cervicales se distinguen por tener:", "options": ["Facetas costales", "Forámenes transversos", "Núcleos pulposos dobles", "Crestas sacras"], "answer": 1}, {"q": "El atlas (C1) carece de:", "options": ["Masas laterales", "Foramen vertebral", "Cuerpo y apófisis espinosa", "Apófisis transversas"], "answer": 2}, {"q": "La apófisis odontoides pertenece a:", "options": ["Atlas", "Axis", "C7", "Occipital"], "answer": 1}, {"q": "La articulación atlantoaxoidea medial es de tipo:", "options": ["Enartrosis", "Trocoide", "Sínfisis", "Bicondílea doble"], "answer": 1}, {"q": "La vértebra prominente suele ser:", "options": ["C1", "C2", "C7", "T1"], "answer": 2}, {"q": "Las vértebras torácicas se caracterizan por:", "options": ["No articularse con costillas", "Tener facetas costales", "Poseer forámenes transversos", "Carecer de apófisis espinosa"], "answer": 1}, {"q": "Las vértebras lumbares son:", "options": ["Las más pequeñas", "Las más grandes y fuertes de las móviles", "Las únicas con facetas costales", "Fusionadas entre sí en el adulto joven"], "answer": 1}, {"q": "El sacro se forma por la fusión de:", "options": ["4 vértebras", "5 vértebras sacras", "7 vértebras", "12 vértebras"], "answer": 1}, {"q": "El hiato sacro resulta de la falta de fusión de:", "options": ["Las láminas de S5 y a veces S4", "Los pedículos de L5", "Las alas del atlas", "Las apófisis unciformes"], "answer": 0}, {"q": "El coxis suele formarse por:", "options": ["2 vértebras fusionadas", "3 vértebras fusionadas", "4 vértebras fusionadas", "5 vértebras fusionadas"], "answer": 2}, {"q": "El ligamento longitudinal anterior se extiende desde:", "options": ["El atlas al axis", "La porción basilar del occipital al sacro", "T1 a L5", "Sacro al cóccix únicamente"], "answer": 1}, {"q": "Los ligamentos amarillos unen:", "options": ["Cuerpos vertebrales", "Láminas vertebrales", "Apófisis espinosas", "Apófisis transversas"], "answer": 1}, {"q": "La articulación atlantooccipital es:", "options": ["Trocoide", "Sinovial bicondílea doble", "Sínfisis", "Artrodia plana"], "answer": 1}, {"q": "La ATM es una articulación:", "options": ["Fibrosa inmóvil", "Bicondílea con disco articular", "Esferoidea pura", "Sutura escamosa"], "answer": 1}, {"q": "En la ATM, la depresión y elevación de la mandíbula ocurren sobre todo en:", "options": ["El compartimento inferior", "El compartimento superior", "La articulación atlantoaxoidea", "La fosa hipofisaria"], "answer": 0}, {"q": "¿Cuál de los siguientes es un músculo masticador?", "options": ["Buccinador", "Masetero", "Orbicular del ojo", "Risorio"], "answer": 1}, {"q": "La principal acción del músculo temporal es:", "options": ["Descender el labio inferior", "Elevar la mandíbula", "Cerrar los párpados", "Dilatar las narinas"], "answer": 1}, {"q": "El músculo masetero eleva principalmente:", "options": ["El labio superior", "La mandíbula", "El párpado", "La ceja"], "answer": 1}, {"q": "El pterigoideo medial participa en:", "options": ["Cierre mandibular y movimientos de masticación", "Extensión cervical", "Fonación laríngea", "Apertura palpebral"], "answer": 0}, {"q": "La contracción bilateral del pterigoideo lateral provoca:", "options": ["Retrusión mandibular exclusiva", "Protrusión y depresión de la mandíbula", "Elevación potente del mentón", "Cierre forzado de los ojos"], "answer": 1}, {"q": "Todos los músculos de la expresión facial están inervados principalmente por:", "options": ["Nervio trigémino (V)", "Nervio facial (VII)", "Nervio vago (X)", "Nervio hipogloso (XII)"], "answer": 1}, {"q": "El vientre frontal del occipitofrontal puede:", "options": ["Elevar las cejas y arrugar horizontalmente la frente", "Cerrar la mandíbula", "Deprimir la lengua", "Protraer el hombro"], "answer": 0}, {"q": "El platisma puede contribuir a:", "options": ["Elevar el labio superior", "Descender la mandíbula y comisuras", "Cerrar los ojos", "Asentir con la cabeza"], "answer": 1}, {"q": "La porción orbitaria del orbicular del ojo permite:", "options": ["Pestañeo suave", "Cierre fuerte del ojo", "Elevación de la ceja medial", "Dilatación pupilar"], "answer": 1}, {"q": "El corrugador superciliar produce:", "options": ["Arrugas verticales en la glabela", "Sonrisa amplia", "Protrusión del labio", "Apertura mandibular"], "answer": 0}, {"q": "El músculo prócer o piramidal de la nariz:", "options": ["Eleva el ángulo de la boca", "Deprime la región medial de las cejas y arruga la glabela", "Cierra el ojo", "Retrae el cuero cabelludo"], "answer": 1}, {"q": "La porción transversa del músculo nasal:", "options": ["Dilata las narinas", "Comprime la abertura nasal", "Desciende el labio inferior", "Eleva la mandíbula"], "answer": 1}, {"q": "El orbicular de los labios tiene como acción principal:", "options": ["Cerrar y fruncir los labios", "Elevar la ceja", "Protruir la lengua", "Descender la mandíbula"], "answer": 0}, {"q": "El buccinador evita principalmente:", "options": ["Que el alimento se acumule en el vestíbulo bucal", "La depresión de la mandíbula", "La rotación atlantoaxoidea", "El paso de aire por la nariz"], "answer": 0}, {"q": "El elevador del labio superior:", "options": ["Desciende el labio inferior", "Eleva y eversa el labio superior", "Cierra la boca con fuerza", "Drena la linfa facial"], "answer": 1}, {"q": "El mentoniano contribuye a:", "options": ["Elevar la mandíbula", "Descender y evertir la base del labio inferior", "Cerrar el ojo", "Dilatar las narinas"], "answer": 1}];
+let questions = JSON.parse(JSON.stringify(originalQuestions));
+let current = 0;
+let answers = Array(questions.length).fill(null);
+let showingSolutions = false;
+let graded = false;
+const letters = ["A","B","C","D"];
+
+function updateProgress() {
+  const answered = answers.filter(v => v !== null).length;
+  document.getElementById("progressText").textContent = `Pregunta ${current + 1} de ${questions.length}`;
+  document.getElementById("answeredText").textContent = `Respondidas: ${answered} / ${questions.length}`;
+  document.getElementById("progressBar").style.width = `${((current + 1) / questions.length) * 100}%`;
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById("questionNumber").textContent = `Pregunta ${current + 1}`;
+  document.getElementById("questionText").textContent = q.q;
+  const optionsEl = document.getElementById("options");
+  optionsEl.innerHTML = "";
+  const selected = answers[current];
+
+  q.options.forEach((opt, idx) => {
+    const label = document.createElement("label");
+    label.className = "option";
+    if (selected === idx) label.classList.add("selected");
+    if (showingSolutions || graded) {
+      if (idx === q.answer) label.classList.add("correct");
+      if (selected === idx && idx !== q.answer) label.classList.add("incorrect");
+      if (selected !== idx && idx !== q.answer) label.classList.add("dimmed");
+    }
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "question";
+    input.value = idx;
+    input.checked = selected === idx;
+    input.addEventListener("change", () => {
+      answers[current] = idx;
+      renderQuestion();
+      updateProgress();
+    });
+
+    const text = document.createElement("div");
+    text.innerHTML = `<strong>${letters[idx]})</strong> ${opt}`;
+    label.appendChild(input);
+    label.appendChild(text);
+    optionsEl.appendChild(label);
+  });
+
+  const feedback = document.getElementById("feedback");
+  feedback.style.display = "none";
+  feedback.className = "feedback";
+  if (showingSolutions || graded) {
+    if (selected === null) {
+      feedback.style.display = "block";
+      feedback.classList.add("bad");
+      feedback.textContent = `Sin responder. Correcta: ${letters[q.answer]}) ${q.options[q.answer]}`;
+    } else if (selected === q.answer) {
+      feedback.style.display = "block";
+      feedback.classList.add("good");
+      feedback.textContent = "Correcta.";
+    } else {
+      feedback.style.display = "block";
+      feedback.classList.add("bad");
+      feedback.textContent = `Incorrecta. Correcta: ${letters[q.answer]}) ${q.options[q.answer]}`;
+    }
+  }
+  document.getElementById("prevBtn").disabled = current === 0;
+  document.getElementById("nextBtn").textContent = current === questions.length - 1 ? "Última pregunta" : "Siguiente →";
+  updateProgress();
+}
+
+function shuffleQuestions() {
+  const combined = questions.map((q, i) => ({ q, a: answers[i] }));
+  for (let i = combined.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [combined[i], combined[j]] = [combined[j], combined[i]];
+  }
+  questions = combined.map(x => x.q);
+  answers = combined.map(x => x.a);
+  current = 0;
+  renderQuestion();
+  hideSummary();
+}
+
+function gradeTest() {
+  graded = true;
+  showingSolutions = false;
+  document.getElementById("showSolutionsBtn").textContent = "Mostrar soluciones";
+  let ok = 0, bad = 0, blank = 0;
+  const review = [];
+
+  questions.forEach((q, i) => {
+    if (answers[i] === null) {
+      blank++;
+      review.push({i, type:"En blanco"});
+    } else if (answers[i] === q.answer) {
+      ok++;
+    } else {
+      bad++;
+      review.push({i, type:"Fallada"});
+    }
+  });
+
+  document.getElementById("scoreOk").textContent = ok;
+  document.getElementById("scoreBad").textContent = bad;
+  document.getElementById("scoreBlank").textContent = blank;
+  document.getElementById("scoreMark").textContent = ((ok / questions.length) * 10).toFixed(2);
+
+  const reviewList = document.getElementById("reviewList");
+  reviewList.innerHTML = "";
+  if (review.length === 0) {
+    reviewList.innerHTML = '<div class="review-item">¡Perfecto! No hay errores ni preguntas en blanco.</div>';
+  } else {
+    review.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "review-item";
+      div.innerHTML = `<strong>Pregunta ${item.i + 1}</strong> · ${item.type} · Correcta: ${letters[questions[item.i].answer]}`;
+      div.addEventListener("click", () => {
+        current = item.i;
+        renderQuestion();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+      reviewList.appendChild(div);
+    });
+  }
+  document.getElementById("summary").style.display = "block";
+  renderQuestion();
+}
+
+function toggleSolutions() {
+  showingSolutions = !showingSolutions;
+  if (showingSolutions) graded = false;
+  document.getElementById("showSolutionsBtn").textContent = showingSolutions ? "Ocultar soluciones" : "Mostrar soluciones";
+  renderQuestion();
+  hideSummary();
+}
+
+function resetTest() {
+  questions = JSON.parse(JSON.stringify(originalQuestions));
+  answers = Array(questions.length).fill(null);
+  current = 0;
+  showingSolutions = false;
+  graded = false;
+  document.getElementById("showSolutionsBtn").textContent = "Mostrar soluciones";
+  renderQuestion();
+  hideSummary();
+}
+
+function hideSummary() {
+  document.getElementById("summary").style.display = "none";
+}
+
+document.getElementById("prevBtn").addEventListener("click", () => {
+  if (current > 0) { current--; renderQuestion(); }
+});
+document.getElementById("nextBtn").addEventListener("click", () => {
+  if (current < questions.length - 1) { current++; renderQuestion(); }
+});
+document.getElementById("shuffleBtn").addEventListener("click", shuffleQuestions);
+document.getElementById("resetBtn").addEventListener("click", resetTest);
+document.getElementById("showSolutionsBtn").addEventListener("click", toggleSolutions);
+document.getElementById("gradeBtn").addEventListener("click", gradeTest);
+
+renderQuestion();
+</script>
+</body>
+</html>
