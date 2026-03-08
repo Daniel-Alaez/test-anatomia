@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Anatomía 1º Enfermería - 250 preguntas</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --primary-2: #1d4ed8;
+      --ok: #15803d;
+      --bad: #b91c1c;
+      --border: #dbe3f0;
+      --shadow: 0 10px 30px rgba(30, 41, 59, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 240px);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 16px 80px;
+    }
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+      line-height: 1.1;
+    }
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin: 18px 0 16px;
+    }
+    .left-tools, .right-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    button {
+      border: 0;
+      background: var(--primary);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: .15s ease;
+    }
+    button:hover { background: var(--primary-2); transform: translateY(-1px); }
+    button.secondary {
+      background: #e5eefc;
+      color: #1e3a8a;
+    }
+    button.secondary:hover { background: #dbe7ff; }
+    button.ghost {
+      background: #edf2f7;
+      color: #334155;
+    }
+    button.ghost:hover { background: #e2e8f0; }
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    .pill {
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 600;
+    }
+    .quiz-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 12px;
+    }
+    .question {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin: 12px 0;
+      background: #fff;
+    }
+    .question h3 {
+      margin: 0 0 12px;
+      font-size: 1.03rem;
+      line-height: 1.45;
+    }
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+    .option {
+      display: block;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: .15s ease;
+      background: #fbfdff;
+    }
+    .option:hover { border-color: #b8c9e6; background: #f7fbff; }
+    .option input { margin-right: 10px; }
+    .option.correct {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+    .option.incorrect {
+      border-color: #fecaca;
+      background: #fef2f2;
+    }
+    .feedback {
+      margin-top: 12px;
+      font-size: .95rem;
+      font-weight: 700;
+    }
+    .feedback.ok { color: var(--ok); }
+    .feedback.bad { color: var(--bad); }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    .result {
+      display: none;
+      margin-top: 20px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .score {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .muted { color: var(--muted); }
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.45;
+    }
+    @media (max-width: 720px) {
+      h1 { font-size: 1.55rem; }
+      .hero, .quiz-card, .result { border-radius: 16px; }
+      button { width: 100%; }
+      .left-tools, .right-tools { width: 100%; }
+      .pill { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Test Anatomía · 1º Enfermería</h1>
+      <p class="sub">
+        Banco de <strong>250 preguntas tipo test</strong> con corrección automática y navegación por páginas.
+      </p>
+      <div class="toolbar">
+        <div class="left-tools">
+          <span class="pill" id="progressPill">Página 1 de 13 · Preguntas 1-20</span>
+          <span class="pill" id="answeredPill">Respondidas: 0 / 250</span>
+        </div>
+        <div class="right-tools">
+          <button class="secondary" id="btnCorrect">Corregir test</button>
+          <button class="ghost" id="btnShowAnswers">Mostrar soluciones</button>
+          <button class="ghost" id="btnReset">Reiniciar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="quiz-card">
+      <div id="quiz"></div>
+      <div class="pagination">
+        <button class="secondary" id="btnPrev">← Anterior</button>
+        <span class="pill" id="pageIndicator">1 / 13</span>
+        <button class="secondary" id="btnNext">Siguiente →</button>
+      </div>
+    </section>
+
+    <section class="result" id="resultBox">
+      <div class="score" id="scoreText"></div>
+      <div class="muted" id="summaryText"></div>
+      <div class="footer-note">
+        Las respuestas quedan guardadas mientras no pulses <strong>“Reiniciar”</strong>.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const QUESTIONS = [{"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 1)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 2)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 3)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 4)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 5)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 6)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 7)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 8)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 9)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 10)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 11)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 12)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 13)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 14)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 15)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 16)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 17)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 18)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 19)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 20)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 21)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 22)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 23)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 24)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 25)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 26)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 27)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 28)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 29)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 30)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 31)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 32)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 33)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 34)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 35)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 36)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 37)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 38)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 39)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 40)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 41)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 42)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 43)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 44)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 45)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 46)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 47)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 48)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 49)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 50)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 51)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 52)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 53)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 54)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 55)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 56)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 57)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 58)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 59)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 60)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 61)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 62)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 63)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 64)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 65)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 66)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 67)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 68)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 69)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 70)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 71)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 72)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 73)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 74)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 75)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 76)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 77)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 78)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 79)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 80)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 81)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 82)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 83)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 84)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 85)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 86)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 87)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 88)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 89)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 90)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 91)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 92)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 93)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 94)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 95)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 96)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 97)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 98)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 99)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 100)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 101)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 102)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 103)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 104)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 105)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 106)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 107)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 108)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 109)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 110)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 111)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 112)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 113)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 114)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 115)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 116)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 117)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 118)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 119)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 120)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 121)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 122)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 123)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 124)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 125)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 126)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 127)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 128)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 129)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 130)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 131)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 132)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 133)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 134)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 135)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 136)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 137)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 138)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 139)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 140)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 141)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 142)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 143)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 144)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 145)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 146)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 147)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 148)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 149)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 150)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 151)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 152)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 153)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 154)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 155)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 156)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 157)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 158)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 159)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 160)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 161)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 162)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 163)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 164)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 165)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 166)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 167)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 168)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 169)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 170)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 171)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 172)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 173)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 174)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 175)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 176)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 177)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 178)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 179)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 180)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 181)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 182)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 183)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 184)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 185)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 186)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 187)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 188)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 189)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 190)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 191)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 192)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 193)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 194)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 195)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 196)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 197)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 198)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 199)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 200)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 201)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 202)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 203)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 204)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 205)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 206)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 207)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 208)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 209)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 210)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 211)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 212)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 213)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 214)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 215)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 216)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 217)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 218)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 219)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 220)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 221)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 222)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 223)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 224)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 225)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 226)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 227)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 228)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 229)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 230)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 231)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 232)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 233)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 234)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 235)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 236)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 237)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 238)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 239)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 240)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}, {"q": "¿Cuál es la función principal del sistema linfático? (Pregunta 241)", "options": ["Transporte de linfa", "Producción de hormonas", "Digestión de proteínas", "Regulación de glucosa"], "answer": 0}, {"q": "¿Qué estructura del hueso contiene la médula ósea? (Pregunta 242)", "options": ["Periostio", "Epífisis", "Diáfisis", "Cartílago articular"], "answer": 2}, {"q": "¿Qué tipo de tejido forma la capa más externa de la piel? (Pregunta 243)", "options": ["Tejido epitelial", "Tejido muscular", "Tejido nervioso", "Tejido conectivo"], "answer": 0}, {"q": "¿Qué estructura conecta músculo con hueso? (Pregunta 244)", "options": ["Ligamento", "Tendón", "Cartílago", "Aponeurosis"], "answer": 1}, {"q": "¿Cuál es la unidad funcional del riñón? (Pregunta 245)", "options": ["Nefrona", "Glomérulo", "Túbulo proximal", "Asa de Henle"], "answer": 0}, {"q": "¿Qué parte del cerebro controla el equilibrio? (Pregunta 246)", "options": ["Cerebelo", "Hipotálamo", "Tálamo", "Amígdala"], "answer": 0}, {"q": "¿Qué cavidad corporal contiene los pulmones? (Pregunta 247)", "options": ["Cavidad torácica", "Cavidad abdominal", "Cavidad pélvica", "Cavidad craneal"], "answer": 0}, {"q": "¿Cuál es el hueso más largo del cuerpo humano? (Pregunta 248)", "options": ["Fémur", "Tibia", "Húmero", "Radio"], "answer": 0}, {"q": "¿Qué válvula cardíaca separa aurícula izquierda y ventrículo izquierdo? (Pregunta 249)", "options": ["Mitral", "Tricúspide", "Pulmonar", "Aórtica"], "answer": 0}, {"q": "¿Qué estructura del ojo regula la cantidad de luz que entra? (Pregunta 250)", "options": ["Iris", "Retina", "Córnea", "Cristalino"], "answer": 0}];
+    const PER_PAGE = 20;
+    let currentPage = 1;
+    let corrected = false;
+    const userAnswers = Array(QUESTIONS.length).fill(null);
+
+    const quiz = document.getElementById("quiz");
+    const progressPill = document.getElementById("progressPill");
+    const answeredPill = document.getElementById("answeredPill");
+    const pageIndicator = document.getElementById("pageIndicator");
+    const resultBox = document.getElementById("resultBox");
+    const scoreText = document.getElementById("scoreText");
+    const summaryText = document.getElementById("summaryText");
+
+    function letter(n) {
+      return ["A", "B", "C", "D"][n];
+    }
+
+    function renderPage() {
+      quiz.innerHTML = "";
+      const totalPages = Math.ceil(QUESTIONS.length / PER_PAGE);
+      const start = (currentPage - 1) * PER_PAGE;
+      const end = Math.min(start + PER_PAGE, QUESTIONS.length);
+
+      progressPill.textContent = `Página ${currentPage} de ${totalPages} · Preguntas ${start + 1}-${end}`;
+      pageIndicator.textContent = `${currentPage} / ${totalPages}`;
+      answeredPill.textContent = `Respondidas: ${userAnswers.filter(v => v !== null).length} / ${QUESTIONS.length}`;
+
+      for (let i = start; i < end; i++) {
+        const q = QUESTIONS[i];
+        const wrapper = document.createElement("article");
+        wrapper.className = "question";
+
+        const title = document.createElement("h3");
+        title.textContent = q.q;
+        wrapper.appendChild(title);
+
+        const options = document.createElement("div");
+        options.className = "options";
+
+        q.options.forEach((opt, idx) => {
+          const label = document.createElement("label");
+          label.className = "option";
+
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = `q_${i}`;
+          input.value = idx;
+          input.checked = userAnswers[i] === idx;
+          input.addEventListener("change", () => {
+            userAnswers[i] = idx;
+            answeredPill.textContent = `Respondidas: ${userAnswers.filter(v => v !== null).length} / ${QUESTIONS.length}`;
+          });
+
+          if (corrected) {
+            if (idx === q.answer) label.classList.add("correct");
+            if (userAnswers[i] === idx && idx !== q.answer) label.classList.add("incorrect");
+          }
+
+          label.appendChild(input);
+          label.append(document.createTextNode(letter(idx) + ") " + opt));
+          options.appendChild(label);
+        });
+
+        wrapper.appendChild(options);
+
+        if (corrected) {
+          const fb = document.createElement("div");
+          if (userAnswers[i] === q.answer) {
+            fb.className = "feedback ok";
+            fb.textContent = "✔ Correcta";
+          } else {
+            fb.className = "feedback bad";
+            const selected = userAnswers[i] === null ? "Sin responder" : letter(userAnswers[i]);
+            fb.textContent = `✘ Incorrecta · Tu respuesta: ${selected} · Correcta: ${letter(q.answer)}`;
+          }
+          wrapper.appendChild(fb);
+        }
+
+        quiz.appendChild(wrapper);
+      }
+
+      document.getElementById("btnPrev").disabled = currentPage === 1;
+      document.getElementById("btnNext").disabled = currentPage === totalPages;
+    }
+
+    function correctTest(showOnlyAnswers = false) {
+      corrected = true;
+      const answered = userAnswers.filter(v => v !== null).length;
+      let correct = 0;
+      let wrong = 0;
+      let blank = 0;
+
+      QUESTIONS.forEach((q, i) => {
+        if (userAnswers[i] === null) blank++;
+        else if (userAnswers[i] === q.answer) correct++;
+        else wrong++;
+      });
+
+      const scoreOver10 = ((correct / QUESTIONS.length) * 10).toFixed(2);
+
+      resultBox.style.display = "block";
+      scoreText.textContent = `Resultado: ${correct} aciertos · ${wrong} fallos · ${blank} en blanco · Nota: ${scoreOver10} / 10`;
+      summaryText.textContent = showOnlyAnswers
+        ? "Se han mostrado las soluciones de todo el test."
+        : `Has respondido ${answered} de ${QUESTIONS.length} preguntas.`;
+
+      renderPage();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function resetTest() {
+      if (!confirm("¿Seguro que quieres reiniciar todo el test?")) return;
+      for (let i = 0; i < userAnswers.length; i++) userAnswers[i] = null;
+      corrected = false;
+      currentPage = 1;
+      resultBox.style.display = "none";
+      renderPage();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.getElementById("btnPrev").addEventListener("click", () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPage();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    document.getElementById("btnNext").addEventListener("click", () => {
+      const totalPages = Math.ceil(QUESTIONS.length / PER_PAGE);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderPage();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    document.getElementById("btnCorrect").addEventListener("click", () => correctTest(false));
+    document.getElementById("btnShowAnswers").addEventListener("click", () => correctTest(true));
+    document.getElementById("btnReset").addEventListener("click", resetTest);
+
+    renderPage();
+  </script>
+</body>
+</html>
